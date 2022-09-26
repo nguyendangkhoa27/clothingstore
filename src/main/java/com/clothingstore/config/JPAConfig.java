@@ -24,7 +24,7 @@ public class JPAConfig {
 		@Bean
 		public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 			LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-			emf.setDataSource(datasourcePostgres());
+			emf.setDataSource(datasourcePostgresHost());
 			emf.setPersistenceUnitName("persistence-data");
 			JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 			emf.setJpaVendorAdapter(adapter);
@@ -56,13 +56,23 @@ public class JPAConfig {
 //			return datasource;
 //		}
 		
+//		@Bean
+//		public DataSource datasourcePostgres() {
+//			DriverManagerDataSource datasource = new DriverManagerDataSource();
+//			datasource.setDriverClassName("org.postgresql.Driver");
+//			datasource.setUrl("jdbc:postgresql://127.0.0.1:5432/clothingstore");
+//			datasource.setUsername("postgres");
+//			datasource.setPassword("123456");
+//			return datasource;
+//		}
+		
 		@Bean
-		public DataSource datasourcePostgres() {
+		public DataSource datasourcePostgresHost() {
 			DriverManagerDataSource datasource = new DriverManagerDataSource();
 			datasource.setDriverClassName("org.postgresql.Driver");
-			datasource.setUrl("jdbc:postgresql://127.0.0.1:5432/clothingstore");
-			datasource.setUsername("postgres");
-			datasource.setPassword("123456");
+			datasource.setUrl("jdbc:postgresql://3.93.206.109:5432/d2ai1fmi6695v4");
+			datasource.setUsername("mullnjjnxbcfcp");
+			datasource.setPassword("342e7417c9556561c82545de524df71f6b80de9b72cd458ef84a3404a47978c9");
 			return datasource;
 		}
 		Properties Addproperties() {
