@@ -17,14 +17,14 @@ public class ProductDTO extends AbsDTO {
 
 	private List<ColorDTO> colors = new ArrayList<>();
 
-	private CatagoryDTO category;
+	private String categorySlug;
 
-	public CatagoryDTO getCategory() {
-		return category;
+	public String getCategorySlug() {
+		return categorySlug;
 	}
 
-	public void setCategory(CatagoryDTO category) {
-		this.category = category;
+	public void setCategorySlug(String categorySlug) {
+		this.categorySlug = categorySlug;
 	}
 
 	private int discount;
