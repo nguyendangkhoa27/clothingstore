@@ -3,30 +3,29 @@ package com.clothingstore.Convert;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.clothingstore.DTO.ProductDTO;
+import com.clothingstore.entity.EntityCategory;
 import com.clothingstore.entity.EntityProduct;
-import com.clothingstore.service.ICategoryService;
 
 @Component
 public class ProductConvert {
 
-	@Autowired
-	private ICategoryService categoryServiced;
 	public EntityProduct toEntity(ProductDTO productDTO) {
 		EntityProduct entity = new EntityProduct();
 		entity.setId(productDTO.getId());
-		if(productDTO.getCategory()!=null) {
-		entity.setCategory(categoryServiced.findById(productDTO.getCategory().getId()));
+		if (productDTO.getCategorySlug() != null && !productDTO.getCategorySlug().isEmpty()) {
+			EntityCategory cate = new EntityCategory();
+			cate.setCategorySlug(productDTO.getCategorySlug());
+			entity.setCategory(cate);
 		}
-		if(productDTO.getImg() !=null && !productDTO.getImg().isEmpty()) {
+		if (productDTO.getImg() != null && !productDTO.getImg().isEmpty()) {
 			String imgs = "";
-			for(String string : productDTO.getImg()) {
-				imgs += string+",";
+			for (String string : productDTO.getImg()) {
+				imgs += string + ",";
 			}
-			entity.setImg(imgs.substring(0, imgs.length()-1));
+			entity.setImg(imgs.substring(0, imgs.length() - 1));
 		}
 		entity.setDiscount(productDTO.getDiscount());
 		entity.setIsActive(productDTO.getIsActive());
@@ -35,11 +34,11 @@ public class ProductConvert {
 		entity.setTitle(productDTO.getTitle());
 		return entity;
 	}
-	
+
 	public ProductDTO toDTO(EntityProduct entityProduct) {
 		ProductDTO DTO = new ProductDTO();
 		DTO.setId(entityProduct.getId());
-		if(entityProduct.getImg() !=null && !entityProduct.getImg().isEmpty()) {
+		if (entityProduct.getImg() != null && !entityProduct.getImg().isEmpty()) {
 			String[] img = entityProduct.getImg().split(",");
 			List<String> imgs = new ArrayList<>();
 			for (String string : img) {
@@ -52,14 +51,15 @@ public class ProductConvert {
 		DTO.setSlug(entityProduct.getSlug());
 		DTO.setTitle(entityProduct.getTitle());
 		DTO.setDiscount(entityProduct.getDiscount());
+		DTO.setCategorySlug(entityProduct.getCategory().getCategorySlug());
 		return DTO;
 	}
-	
-	public EntityProduct NewToOld (EntityProduct oldProduct, EntityProduct newProduct) {
-		
-		if(newProduct.getCategory()!=null) {
-			oldProduct.setCategory(categoryServiced.findById(newProduct.getCategory().getId()));
-			}
+
+	public EntityProduct NewToOld(EntityProduct oldProduct, EntityProduct newProduct) {
+
+		if (newProduct.getCategory() != null) {
+			  oldProduct.setCategory(newProduct.getCategory());
+		}
 		oldProduct.setImg(newProduct.getImg());
 		oldProduct.setIsActive(newProduct.getIsActive());
 		oldProduct.setPrice(newProduct.getPrice());
@@ -68,13 +68,22 @@ public class ProductConvert {
 		oldProduct.setDiscount(newProduct.getDiscount());
 		return oldProduct;
 	}
-	
-	public List<ProductDTO> toListDTO(List<EntityProduct> eproducts){
+
+	public List<ProductDTO> toListDTO(List<EntityProduct> eproducts) {
 		List<ProductDTO> productDTO = new ArrayList<>();
-		for(EntityProduct eproduct : eproducts) {
+		for (EntityProduct eproduct : eproducts) {
 			ProductDTO dto = toDTO(eproduct);
 			productDTO.add(dto);
 		}
 		return productDTO;
+	}
+
+	public List<EntityProduct> toListEntity(List<ProductDTO> dtoList) {
+		List<EntityProduct> entities = new ArrayList<>();
+		for (ProductDTO dto : dtoList) {
+			EntityProduct entity = toEntity(dto);
+			entities.add(entity);
+		}
+		return entities;
 	}
 }

@@ -70,9 +70,9 @@ public class JPAConfig {
 		public DataSource datasourcePostgresHost() {
 			DriverManagerDataSource datasource = new DriverManagerDataSource();
 			datasource.setDriverClassName("org.postgresql.Driver");
-			datasource.setUrl("jdbc:postgresql://3.214.2.141:5432/d2gfkdt9ur4js8");
-			datasource.setUsername("uufzgkraudizio");
-			datasource.setPassword("d6576fbf00a1a9e24486c0adccdfec8761023624a547c80867ee31f8bd310ede");
+			datasource.setUrl("jdbc:postgresql://18.215.41.121:5432/d6p4ccta6ju8fp");
+			datasource.setUsername("fthzvfucdmeata");
+			datasource.setPassword("9f7854ab08b961947bd5a1c0203052904e67f45882eec4397b878149422ed91b");
 			return datasource;
 		}
 		Properties Addproperties() {

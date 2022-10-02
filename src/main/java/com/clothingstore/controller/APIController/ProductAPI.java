@@ -1,6 +1,8 @@
 package com.clothingstore.controller.APIController;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,24 @@ public class ProductAPI {
 	
 	
 	@GetMapping("/api/product")
-	public List<ProductDTO> list(@RequestParam int idCategory) {
-		Long idcate =(long)idCategory;
-		List<ProductDTO> productDTOs = productService.findAllByCategory(idcate);
+	public List<ProductDTO> list(@RequestParam String param) {
+		List<ProductDTO> productDTOs = null;
+			Pattern pattern = Pattern.compile("[^0-9]");// regex [^0-9] tìm những kí tự không phải là số 
+			Matcher mattcher = pattern.matcher(param);
+			boolean check = mattcher.find();//check
+			if(check) {//nếu bằng true => param có chữ 
+				productDTOs = productService.findAllByCagorySlug(param);
+			}else {
+			Long idcate =Long.parseLong(param);
+			productDTOs = productService.findAllByCategory(idcate);
+			}
+		
+		return productDTOs;
+	} 
+	
+	@GetMapping("/api/product/all")
+	public List<ProductDTO> list() {
+		List<ProductDTO> productDTOs =  productService.findAll();
 		return productDTOs;
 	} 
 	
@@ -36,6 +53,7 @@ public class ProductAPI {
 	
 	@PostMapping("/api/product")
 	public ProductDTO createProduct(@RequestBody ProductDTO dto) {
+			dto.setId(null);
 			dto = productService.insert(dto);
 		return dto;
 	} 

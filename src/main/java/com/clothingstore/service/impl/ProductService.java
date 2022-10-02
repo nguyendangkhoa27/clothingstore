@@ -7,27 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.clothingstore.Convert.CategoryConvert;
 import com.clothingstore.Convert.ProductConvert;
+import com.clothingstore.DTO.CategoryDTO;
 import com.clothingstore.DTO.ProductDTO;
 import com.clothingstore.entity.EntityProduct;
-import com.clothingstore.repository.impl.ProductRepository;
+import com.clothingstore.repository.impl.CustomProductRepository;
 import com.clothingstore.service.ICategoryService;
 import com.clothingstore.service.IProductService;
 @Service
 public class ProductService implements IProductService{
 	
+	//INJECT
 	@Autowired
 	private ProductConvert productConvert;
 	@Autowired
-	private ProductRepository productRepository;
+	private CustomProductRepository productRepository;
 	
 	@Autowired ICategoryService categoryService; 
 	
+	@Autowired
+	private CategoryConvert categoryConvert;
+	
+	//function
 	@Override
-	public EntityProduct findOne(Long id) {
+	public ProductDTO findOne(Long id) {
 		if(id != null) {
 			EntityProduct e = productRepository.findOne(id);
-			return e;
+			return productConvert.toDTO(e);
 		}
 		return null;
 	}
@@ -43,11 +50,23 @@ public class ProductService implements IProductService{
 		}
 			return productDTOs;
 	}
+	
+	@Override
+	public List<ProductDTO> findAllByCagorySlug(String categorySlug) {
+		List<ProductDTO> products = null;
+		CategoryDTO cateDTO = categoryService.findByCategorySlug(categorySlug);
+		if(cateDTO != null) {
+			products = findAllByCategory(cateDTO.getId());
+		}
+		return products;
+	}
+	
 	@Override
 	@Transactional
 	public ProductDTO insert(ProductDTO productDTO) {
 		if(productDTO !=null) {
 			EntityProduct entity = productConvert.toEntity(productDTO);
+			entity.setCategory(categoryConvert.toEntity(categoryService.findByCategorySlug(entity.getCategory().getCategorySlug())));
 			if(entity.getCategory() !=null) {
 				productRepository.save(entity);
 				return productConvert.toDTO(entity);
@@ -63,10 +82,11 @@ public class ProductService implements IProductService{
 				List<EntityProduct> eProducts = new ArrayList<>();
 				for(ProductDTO product : products) {
 					EntityProduct entity = productConvert.toEntity(product);
+					entity.setCategory(categoryConvert.toEntity(categoryService.findByCategorySlug(entity.getCategory().getCategorySlug())));
 					if(entity.getCategory() == null) {
 						return null;	
 					}else {
-						eProducts.add(productConvert.toEntity(product));
+						eProducts.add(entity);
 					}
 				}
 				
@@ -92,9 +112,8 @@ public class ProductService implements IProductService{
 		return null;
 	}
 	@Override
-	public List<ProductDTO> findAll(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ProductDTO> findAll() {
+		return productConvert.toListDTO(productRepository.findAll());
 	}
 	
 }
