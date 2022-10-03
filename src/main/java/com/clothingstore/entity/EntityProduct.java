@@ -3,13 +3,18 @@ package com.clothingstore.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="product")
@@ -27,12 +32,14 @@ public class EntityProduct extends CoreEntity {
 	@Column(name="slug",length = 150)
 	private String slug;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	@JoinTable(name="product_size", joinColumns = @JoinColumn(name="product_id"),
 	inverseJoinColumns = @JoinColumn(name="size_id"))
 	private List<EntitySize> sizes = new ArrayList<>();
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	@JoinTable(name ="product_color", joinColumns = @JoinColumn(name="product_id"),
 	inverseJoinColumns = @JoinColumn(name="color_id"))
 	private List<EntityColor> colors = new ArrayList<>();

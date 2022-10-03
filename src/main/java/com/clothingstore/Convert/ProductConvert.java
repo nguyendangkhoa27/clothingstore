@@ -9,6 +9,7 @@ import com.clothingstore.DTO.ProductDTO;
 import com.clothingstore.entity.EntityCategory;
 import com.clothingstore.entity.EntityColor;
 import com.clothingstore.entity.EntityProduct;
+import com.clothingstore.entity.EntitySize;
 
 @Component
 public class ProductConvert {
@@ -61,12 +62,19 @@ public class ProductConvert {
 		DTO.setCreatedDate(entityProduct.getCreatedDate());
 		DTO.setModifiedBy(entityProduct.getModifiedBy());
 		DTO.setModifiedDate(entityProduct.getModifiedDate());
-		if(entityProduct.getColors() !=null) {
+		if(entityProduct.getColors() !=null && entityProduct.getColors().size() > 0) {
 			List<String> colors = new ArrayList<>();
 			for (EntityColor color : entityProduct.getColors() ) {
 				colors.add(color.getColorName());
 			}
 			DTO.setColors(colors);
+		}
+		if(entityProduct.getSizes() !=null && entityProduct.getSizes().size() > 0) {
+			List<String> sizes = new ArrayList<>();
+			for (EntitySize size : entityProduct.getSizes() ) {
+				sizes.add(size.getNameSize());
+			}
+			DTO.setSizes(sizes);
 		}
 		return DTO;
 	}

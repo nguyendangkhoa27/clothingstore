@@ -15,9 +15,12 @@ import com.clothingstore.DTO.CategoryDTO;
 import com.clothingstore.DTO.ProductDTO;
 import com.clothingstore.entity.EntityProduct;
 import com.clothingstore.repository.IProductRepository;
+import com.clothingstore.repository.ISizeRepository;
 import com.clothingstore.repository.impl.CustomProductRepository;
 import com.clothingstore.service.ICategoryService;
+import com.clothingstore.service.IColorService;
 import com.clothingstore.service.IProductService;
+import com.clothingstore.service.ISizeService;
 @Service
 public class ProductService implements IProductService{
 	
@@ -36,7 +39,13 @@ public class ProductService implements IProductService{
 	private CategoryConvert categoryConvert;
 	
 	@Autowired
-	private ColorService colorService;
+	private IColorService colorService;
+	
+	@Autowired
+	private ISizeService sizeService;
+	
+	@Autowired
+	private ISizeRepository sizeRepository;
 	
 	@Autowired 
 	private ColorConvert colorConvert;
@@ -82,6 +91,8 @@ public class ProductService implements IProductService{
 			if(entity.getCategory() !=null) {
 				entity.setCreatedDate(new Date());
 				entity.setColors(colorService.findByColorName(productDTO.getColors()));
+				entity.setSizes(sizeRepository.findByNameSizes(productDTO.getSizes()));
+				entity.setIsActive(true);
 				productRepository.save(entity);
 				return productConvert.toDTO(entity);
 			}
@@ -100,7 +111,11 @@ public class ProductService implements IProductService{
 					if(entity.getCategory() == null) {
 						return null;	
 					}else {
+						entity.setId(null);
 						entity.setCreatedDate(new Date());
+						entity.setColors(colorService.findByColorName(product.getColors()));
+						entity.setSizes(sizeRepository.findByNameSizes(product.getSizes()));
+						entity.setIsActive(true);
 						eProducts.add(entity);
 					}
 				}
@@ -122,6 +137,7 @@ public class ProductService implements IProductService{
 						oldProduct = productConvert.NewToOld(oldProduct, newProduct);
 						oldProduct.setModifiedDate(new Date());
 						oldProduct.setColors(colorService.findByColorName(productDTO.getColors()));
+						oldProduct.setSizes(sizeRepository.findByNameSizes(productDTO.getSizes()));
 						productRepository.save(oldProduct);
 						return productConvert.toDTO(oldProduct);
 				}

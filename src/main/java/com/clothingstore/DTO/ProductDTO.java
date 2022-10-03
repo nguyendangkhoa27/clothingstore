@@ -13,7 +13,7 @@ public class ProductDTO extends AbsDTO {
 
 	private String slug;
 
-	private List<SizeDTO> sizes = new ArrayList<>();
+	private List<String> sizes = new ArrayList<>();
 
 	private List<String> colors = new ArrayList<>();
 
@@ -63,11 +63,13 @@ public class ProductDTO extends AbsDTO {
 		this.slug = slug;
 	}
 
-	public List<SizeDTO> getSizes() {
+	
+
+	public List<String> getSizes() {
 		return sizes;
 	}
 
-	public void setSizes(List<SizeDTO> sizes) {
+	public void setSizes(List<String> sizes) {
 		this.sizes = sizes;
 	}
 
