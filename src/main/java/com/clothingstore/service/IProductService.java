@@ -2,12 +2,9 @@ package com.clothingstore.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.clothingstore.DTO.ProductDTO;
-import com.clothingstore.entity.EntityProduct;
 
-@Service
+
 public interface IProductService {
 	
 	public ProductDTO findOne(Long id);
@@ -23,4 +20,6 @@ public interface IProductService {
 	public ProductDTO update(ProductDTO productDTO);
 	
 	public List<ProductDTO> insertMultiProduct(List<ProductDTO> products);
+	
+	public Long deleteProduct(List<Long> ids);
 }

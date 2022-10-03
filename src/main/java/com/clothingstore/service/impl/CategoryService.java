@@ -1,5 +1,6 @@
 package com.clothingstore.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class CategoryService implements ICategoryService {
 	public CategoryDTO findById(Long id) {
 		Optional<EntityCategory> entity = categoryRepository.findById(id);
 		if(!entity.isEmpty()) {
-			return null;
+			return convert.toDTO(entity.get());
 		}
 		return null;
 	}
@@ -42,32 +43,48 @@ public class CategoryService implements ICategoryService {
 	
 	@Override
 	public List<CategoryDTO> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return convert.toListDTO(categoryRepository.findAll());
 	}
 	
 	 @Override
 	public CategoryDTO insert(CategoryDTO categoryDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityCategory entity = convert.toEntity(categoryDTO);
+		entity.setCreatedDate(new Date());
+		entity = categoryRepository.save(entity);
+		return convert.toDTO(entity);
 	}
 	 
 	 @Override
 	public List<CategoryDTO> insertMultiCategory(List<CategoryDTO> categories) {
-		// TODO Auto-generated method stub
-		return null;
+		 List<EntityCategory> listEntity = null;
+		if(categories !=null && categories.size() > 0) {
+			listEntity = convert.toListEntity(categories);
+			for( EntityCategory cate : listEntity) {
+				cate.setCreatedDate(new Date());
+			}
+		categories = convert.toListDTO(categoryRepository.saveAll(listEntity));
+		}
+		return categories;
 	}
 	 
 	 @Override
 	public CategoryDTO update(CategoryDTO categoryDTO) {
-		// TODO Auto-generated method stub
+		if (categoryDTO != null) {
+			EntityCategory oldCate = convert.toEntity(findById(categoryDTO.getId()));
+			EntityCategory newCate = convert.toEntity(categoryDTO);
+			if(oldCate != null) {
+				oldCate = convert.toNewCate(oldCate, newCate);
+				oldCate.setModifiedDate(new Date());
+				oldCate = categoryRepository.save(oldCate);
+				return convert.toDTO(oldCate);
+			}
+		}
 		return null;
 	}
 	 
 	 @Override
-	public CategoryDTO delete(CategoryDTO categoryDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		public Long delete(List<Long> ids) {			 
+			return (long) categoryRepository.deleteWithMultiId(ids);
+		}
 	
 }

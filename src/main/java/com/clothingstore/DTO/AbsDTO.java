@@ -30,20 +30,39 @@ public abstract class AbsDTO {
 		return id;
 	}
 
-	public Date getCreateDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public String getCreateBy() {
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
 		return CreatedBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		CreatedBy = createdBy;
 	}
 
 	public Date getModifiedDate() {
 		return ModifiedDate;
 	}
 
+	public void setModifiedDate(Date modifiedDate) {
+		ModifiedDate = modifiedDate;
+	}
+
 	public String getModifiedBy() {
 		return ModifiedBy;
 	}
+
+	public void setModifiedBy(String modifiedBy) {
+		ModifiedBy = modifiedBy;
+	}
+
+	
+	
 
 }

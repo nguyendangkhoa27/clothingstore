@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.clothingstore.DTO.ProductDTO;
 import com.clothingstore.entity.EntityCategory;
+import com.clothingstore.entity.EntityColor;
 import com.clothingstore.entity.EntityProduct;
 
 @Component
@@ -32,6 +33,10 @@ public class ProductConvert {
 		entity.setPrice(productDTO.getPrice());
 		entity.setSlug(productDTO.getSlug());
 		entity.setTitle(productDTO.getTitle());
+		entity.setCreatedBy(productDTO.getCreatedBy());
+		entity.setCreatedDate(productDTO.getCreatedDate());
+		entity.setModifiedBy(productDTO.getModifiedBy());
+		entity.setModifiedDate(productDTO.getModifiedDate());
 		return entity;
 	}
 
@@ -52,6 +57,17 @@ public class ProductConvert {
 		DTO.setTitle(entityProduct.getTitle());
 		DTO.setDiscount(entityProduct.getDiscount());
 		DTO.setCategorySlug(entityProduct.getCategory().getCategorySlug());
+		DTO.setCreatedBy(entityProduct.getCreatedBy());
+		DTO.setCreatedDate(entityProduct.getCreatedDate());
+		DTO.setModifiedBy(entityProduct.getModifiedBy());
+		DTO.setModifiedDate(entityProduct.getModifiedDate());
+		if(entityProduct.getColors() !=null) {
+			List<String> colors = new ArrayList<>();
+			for (EntityColor color : entityProduct.getColors() ) {
+				colors.add(color.getColorName());
+			}
+			DTO.setColors(colors);
+		}
 		return DTO;
 	}
 
@@ -66,6 +82,10 @@ public class ProductConvert {
 		oldProduct.setSlug(newProduct.getSlug());
 		oldProduct.setTitle(newProduct.getTitle());
 		oldProduct.setDiscount(newProduct.getDiscount());
+		oldProduct.setCreatedBy(newProduct.getCreatedBy());
+		oldProduct.setCreatedDate(newProduct.getCreatedDate());
+		oldProduct.setModifiedBy(newProduct.getModifiedBy());
+		oldProduct.setModifiedDate(newProduct.getModifiedDate());
 		return oldProduct;
 	}
 

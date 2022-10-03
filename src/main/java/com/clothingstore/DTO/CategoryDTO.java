@@ -10,7 +10,6 @@ public class CategoryDTO extends AbsDTO {
 	
 	private List<String> img;
 
-	private List<ProductDTO> products;
 
 	public String getCategorySlug() {
 		return categorySlug;
@@ -28,12 +27,5 @@ public class CategoryDTO extends AbsDTO {
 		this.img = img;
 	}
 
-	public List<ProductDTO> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<ProductDTO> products) {
-		this.products = products;
-	}
 	
 }

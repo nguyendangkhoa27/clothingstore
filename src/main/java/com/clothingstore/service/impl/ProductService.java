@@ -1,6 +1,7 @@
 package com.clothingstore.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clothingstore.Convert.CategoryConvert;
+import com.clothingstore.Convert.ColorConvert;
 import com.clothingstore.Convert.ProductConvert;
 import com.clothingstore.DTO.CategoryDTO;
 import com.clothingstore.DTO.ProductDTO;
 import com.clothingstore.entity.EntityProduct;
+import com.clothingstore.repository.IProductRepository;
 import com.clothingstore.repository.impl.CustomProductRepository;
 import com.clothingstore.service.ICategoryService;
 import com.clothingstore.service.IProductService;
@@ -27,7 +30,16 @@ public class ProductService implements IProductService{
 	@Autowired ICategoryService categoryService; 
 	
 	@Autowired
+	private IProductRepository iProductRepository;
+	
+	@Autowired
 	private CategoryConvert categoryConvert;
+	
+	@Autowired
+	private ColorService colorService;
+	
+	@Autowired 
+	private ColorConvert colorConvert;
 	
 	//function
 	@Override
@@ -68,6 +80,8 @@ public class ProductService implements IProductService{
 			EntityProduct entity = productConvert.toEntity(productDTO);
 			entity.setCategory(categoryConvert.toEntity(categoryService.findByCategorySlug(entity.getCategory().getCategorySlug())));
 			if(entity.getCategory() !=null) {
+				entity.setCreatedDate(new Date());
+				entity.setColors(colorService.findByColorName(productDTO.getColors()));
 				productRepository.save(entity);
 				return productConvert.toDTO(entity);
 			}
@@ -86,6 +100,7 @@ public class ProductService implements IProductService{
 					if(entity.getCategory() == null) {
 						return null;	
 					}else {
+						entity.setCreatedDate(new Date());
 						eProducts.add(entity);
 					}
 				}
@@ -101,9 +116,12 @@ public class ProductService implements IProductService{
 		if(productDTO!=null) {
 			EntityProduct newProduct = productConvert.toEntity(productDTO);
 			EntityProduct oldProduct = productRepository.findOne(productDTO.getId());
+			newProduct.setCategory(categoryConvert.toEntity(categoryService.findByCategorySlug(newProduct.getCategory().getCategorySlug())));
 			if(newProduct.getCategory() !=null) {
 				if(oldProduct!=null) {
 						oldProduct = productConvert.NewToOld(oldProduct, newProduct);
+						oldProduct.setModifiedDate(new Date());
+						oldProduct.setColors(colorService.findByColorName(productDTO.getColors()));
 						productRepository.save(oldProduct);
 						return productConvert.toDTO(oldProduct);
 				}
@@ -114,6 +132,11 @@ public class ProductService implements IProductService{
 	@Override
 	public List<ProductDTO> findAll() {
 		return productConvert.toListDTO(productRepository.findAll());
+	}
+	
+	@Override
+	public Long deleteProduct(List<Long> ids) {
+		return (long) iProductRepository.deleteProduct(ids);
 	}
 	
 }

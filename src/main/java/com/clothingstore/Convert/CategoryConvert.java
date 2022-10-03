@@ -30,6 +30,10 @@ public class CategoryConvert {
 			}
 		
 		}
+		dto.setCreatedBy(eCategory.getCreatedBy());
+		dto.setCreatedDate(eCategory.getCreatedDate());
+		dto.setModifiedBy(eCategory.getModifiedBy());
+		dto.setModifiedDate(eCategory.getModifiedDate());
 		return dto;
 	}
 	
@@ -41,12 +45,42 @@ public class CategoryConvert {
 			entity.setCategorySlug(dto.getCategorySlug());
 			entity.setIsActive(dto.getIsActive());
 			if(dto.getImg() != null && dto.getImg().size() > 0) {
-				String img = dto.getImg().toString(); 
-				entity.setImg(img);
+				String imgs = "";
+				for(String img : dto.getImg()) {
+					imgs += img+",";
+				} 
+				entity.setImg(imgs.substring(0,(imgs.length()-1)));
 			}
-			
+			entity.setCreatedBy(dto.getCreatedBy());
+			entity.setCreatedDate(dto.getCreatedDate());
+			entity.setModifiedBy(dto.getModifiedBy());
+			entity.setModifiedDate(dto.getModifiedDate());
 		}
 		return entity;
 	}
+	public List<CategoryDTO> toListDTO(List<EntityCategory> categoriesEn){
+		List<CategoryDTO> listDTO = new ArrayList<>();
+		for (EntityCategory entity : categoriesEn) {
+			listDTO.add(toDTO(entity));
+		}
+		return listDTO;
+	}
+	public List<EntityCategory> toListEntity(List<CategoryDTO> categoriesDTO){
+		List<EntityCategory> listEntity = new ArrayList<>();
+		for (CategoryDTO dto : categoriesDTO) {
+			listEntity.add(toEntity(dto));
+		}
+		return listEntity;
+	}
 	
+	public EntityCategory toNewCate(EntityCategory oldCate, EntityCategory newCate) {
+		oldCate.setCategorySlug(newCate.getCategorySlug());
+		oldCate.setIsActive(newCate.getIsActive());
+		oldCate.setImg(newCate.getImg());
+		oldCate.setCreatedBy(newCate.getCreatedBy());
+		oldCate.setCreatedDate(newCate.getCreatedDate());
+		oldCate.setModifiedBy(newCate.getModifiedBy());
+		oldCate.setModifiedDate(newCate.getModifiedDate());
+		return oldCate;
+	}
 }

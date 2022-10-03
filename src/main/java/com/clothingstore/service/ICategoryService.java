@@ -9,7 +9,7 @@ public interface ICategoryService {
 	List<CategoryDTO> findAll();
 	CategoryDTO insert(CategoryDTO categoryDTO);
 	CategoryDTO update(CategoryDTO categoryDTO);
-	CategoryDTO delete(CategoryDTO categoryDTO);
+	Long delete(List<Long> ids);
 	List<CategoryDTO> insertMultiCategory(List<CategoryDTO> categories);
 	CategoryDTO findByCategorySlug(String categorySlug);
 }

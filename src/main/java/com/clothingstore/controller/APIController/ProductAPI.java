@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,14 +18,19 @@ import com.clothingstore.DTO.ProductDTO;
 import com.clothingstore.DTO.ProductList;
 import com.clothingstore.service.IProductService;
 
-@RestController(value="apiOfAdmin")
+import io.swagger.annotations.ApiOperation;
+
+@RestController(value="apiProductOfAdmin")
 public class ProductAPI {
 
 	
 	@Autowired
 	private IProductService productService;
 	
-	
+	@ApiOperation(value = "Finds Product by idCategory or CategorySlug",
+		    notes = "param is Long or String *ex: ?param=1 or ?param=T-Shirt ",
+		    response = ProductDTO.class,
+		    responseContainer = "List")
 	@GetMapping("/api/product")
 	public List<ProductDTO> list(@RequestParam String param) {
 		List<ProductDTO> productDTOs = null;
@@ -39,7 +46,11 @@ public class ProductAPI {
 		
 		return productDTOs;
 	} 
-	
+	@ApiOperation(value = "Finds Product by object Search Product",
+		    notes = "object{ id,name,price,category,is_active}",
+		    response = ProductDTO.class,
+		    responseContainer = "List")
+
 	@GetMapping("/api/product/all")
 	public List<ProductDTO> list() {
 		List<ProductDTO> productDTOs =  productService.findAll();
@@ -62,6 +73,11 @@ public class ProductAPI {
 			dto = productService.update(dto);
 		return dto;
 	} 
+	
+	@DeleteMapping("/api/product")
+	public Long deleteProduct(@RequestBody List<Long> ids) {
+		return productService.deleteProduct(ids);
+	}
 	
 	
 }

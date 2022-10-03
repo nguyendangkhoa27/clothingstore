@@ -15,7 +15,7 @@ public class ProductDTO extends AbsDTO {
 
 	private List<SizeDTO> sizes = new ArrayList<>();
 
-	private List<ColorDTO> colors = new ArrayList<>();
+	private List<String> colors = new ArrayList<>();
 
 	private String categorySlug;
 
@@ -71,11 +71,11 @@ public class ProductDTO extends AbsDTO {
 		this.sizes = sizes;
 	}
 
-	public List<ColorDTO> getColors() {
+	public List<String> getColors() {
 		return colors;
 	}
 
-	public void setColors(List<ColorDTO> colors) {
+	public void setColors(List<String> colors) {
 		this.colors = colors;
 	}
 
@@ -87,4 +87,5 @@ public class ProductDTO extends AbsDTO {
 		this.discount = discount;
 	}
 
+	
 }
