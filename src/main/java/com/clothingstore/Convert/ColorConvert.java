@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.clothingstore.DTO.ColorDTO;
+import com.clothingstore.DTO.Short.ColorShortDTO;
 import com.clothingstore.entity.EntityColor;
 
 @Component
@@ -39,6 +40,27 @@ public class ColorConvert {
 				entity.setModifiedDate(color.getModifiedDate());
 			}
 			return entity;
+		}
+		
+		public EntityColor colorShortToEntity(ColorShortDTO colorShort) {
+			EntityColor entity = null;
+			if(colorShort !=null ) {
+				entity = new EntityColor();
+				entity.setId(colorShort.getId());
+				entity.setColorName(colorShort.getColorName());
+			}
+			return entity;
+		}
+		
+		public List<EntityColor> shortsToEntities(List<ColorShortDTO> colorShorts){
+			List<EntityColor> listEColors = null;
+			if( colorShorts != null) {
+				listEColors = new ArrayList<>();
+				for(ColorShortDTO colorShort : colorShorts) {
+					listEColors.add(colorShortToEntity(colorShort));
+				}
+			}
+			return listEColors;
 		}
 		
 		public List<ColorDTO> toListDTO(List<EntityColor> entities){

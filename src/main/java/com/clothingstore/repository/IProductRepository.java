@@ -16,6 +16,7 @@ import com.clothingstore.entity.EntityProduct;
 public interface IProductRepository extends JpaRepository<EntityProduct, Long>  {
 	
 		List<EntityProduct> findAll();
+		
 		List<EntityProduct> findAllByCategory(EntityCategory category);
 		@SuppressWarnings("unchecked")
 		EntityProduct save(EntityProduct product);
@@ -23,4 +24,7 @@ public interface IProductRepository extends JpaRepository<EntityProduct, Long>  
 		@Modifying
 		@Query(value="Update product Set is_active = false WHERE id IN (:ids)",nativeQuery = true)
 		public int deleteProduct(@Param("ids") List<Long> ids);
+		
+		@Query(value="Select * from product where is_active = true AND category_id = :idCate" , nativeQuery=true)
+		List<EntityProduct> findByIdCategory(@Param("idCate") Long idCate);
 }

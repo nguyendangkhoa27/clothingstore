@@ -13,9 +13,8 @@ import com.clothingstore.entity.EntityCategory;
 
 @Transactional
 public interface ICategoryRepository extends JpaRepository<EntityCategory, Long> {
-	
+	List<EntityCategory> findByIsActive(boolean isActive);
 	List<EntityCategory> findByCategorySlug(String categorySlug);
-	
 	@Modifying
 	@Query(value = "update category set is_active = false where id IN (:ids)", nativeQuery = true)
 	public int deleteWithMultiId(@Param("ids") List<Long> ids);

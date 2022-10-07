@@ -19,6 +19,11 @@ public interface IColorRepository extends JpaRepository<EntityColor, Long> {
 	public int deleteColor(@Param("ids") List<Long> ids);
 	
 	@Modifying
-	@Query(value="Select * from color WHERE color_name IN (:names)",nativeQuery = true)
+	@Query(value="Select * from color WHERE is_active = true AND color_name IN (:names)",nativeQuery = true)
 	public List<EntityColor> findByColorNames(@Param("names") List<String> colorNames);
+	
+	@Query(value="Select * from color WHERE is_active = true AND id IN (:ids)",nativeQuery = true)
+	public List<EntityColor> findByColorIds(@Param("ids") List<Long> ids);
+	
+	List<EntityColor> findByIsActive(boolean isActive);
 }

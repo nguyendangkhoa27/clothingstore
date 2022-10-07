@@ -3,6 +3,10 @@ package com.clothingstore.DTO;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clothingstore.DTO.Short.CategoryShortDTO;
+import com.clothingstore.DTO.Short.ColorShortDTO;
+import com.clothingstore.DTO.Short.SizeShortDTO;
+
 public class ProductDTO extends AbsDTO {
 
 	private String title;
@@ -13,17 +17,19 @@ public class ProductDTO extends AbsDTO {
 
 	private String slug;
 
-	private List<String> sizes = new ArrayList<>();
+	private List<SizeShortDTO> sizes = new ArrayList<>();
 
-	private List<String> colors = new ArrayList<>();
+	private List<ColorShortDTO> colors = new ArrayList<>();
 
-	private String categorySlug;
+	private CategoryShortDTO categorySlug;
 
-	public String getCategorySlug() {
+	
+
+	public CategoryShortDTO getCategorySlug() {
 		return categorySlug;
 	}
 
-	public void setCategorySlug(String categorySlug) {
+	public void setCategorySlug(CategoryShortDTO categorySlug) {
 		this.categorySlug = categorySlug;
 	}
 
@@ -62,22 +68,20 @@ public class ProductDTO extends AbsDTO {
 	public void setSlug(String slug) {
 		this.slug = slug;
 	}
-
 	
-
-	public List<String> getSizes() {
+	public List<SizeShortDTO> getSizes() {
 		return sizes;
 	}
 
-	public void setSizes(List<String> sizes) {
+	public void setSizes(List<SizeShortDTO> sizes) {
 		this.sizes = sizes;
 	}
 
-	public List<String> getColors() {
+	public List<ColorShortDTO> getColors() {
 		return colors;
 	}
 
-	public void setColors(List<String> colors) {
+	public void setColors(List<ColorShortDTO> colors) {
 		this.colors = colors;
 	}
 

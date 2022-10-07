@@ -14,10 +14,15 @@ import com.clothingstore.entity.EntitySize;
 @Transactional
 public interface ISizeRepository extends JpaRepository<EntitySize, Long> {
 	@Modifying
-	@Query(value="SELECT * FROM size WHERE name_size IN (:names)",nativeQuery = true)
+	@Query(value="SELECT * FROM size WHERE is_active = true AND name_size IN (:names)",nativeQuery = true)
 	List<EntitySize> findByNameSizes(@Param("names") List<String> nameSizes);
 	
 	@Modifying
 	@Query(value="UPDATE size SET is_active = false WHERE id IN (:ids)",nativeQuery = true)
 	int deleteSize(@Param("ids") List<Long> ids);
+	
+	@Query(value="SELECT * FROM size WHERE is_active = true AND id IN (:ids)",nativeQuery = true)
+	List<EntitySize> FindSizeByIds(@Param("ids") List<Long> ids);
+	
+	List<EntitySize> findByIsActive(boolean isActive);
 }

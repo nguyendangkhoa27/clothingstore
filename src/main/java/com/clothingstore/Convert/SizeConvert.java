@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.clothingstore.DTO.SizeDTO;
+import com.clothingstore.DTO.Short.SizeShortDTO;
 import com.clothingstore.entity.EntitySize;
 
 @Component
@@ -49,6 +50,28 @@ public class SizeConvert {
 			}
 		}
 		return dtos;
+	}
+	
+	//convert short
+	public EntitySize sizeShortToEntity(SizeShortDTO sizeShort) {
+		EntitySize entity = null;
+		if(sizeShort !=null ) {
+			entity = new EntitySize();
+			entity.setId(sizeShort.getId());
+			entity.setNameSize(sizeShort.getSizeName());
+		}
+		return entity;
+	}
+	
+	public List<EntitySize> shortsToEntities(List<SizeShortDTO> sizeShorts){
+		List<EntitySize> listESizes = null;
+		if( sizeShorts != null) {
+			listESizes = new ArrayList<>();
+			for(SizeShortDTO sizeShort : sizeShorts) {
+				listESizes.add(sizeShortToEntity(sizeShort));
+			}
+		}
+		return listESizes;
 	}
 	
 	public List<EntitySize> toSizeEntites(List<SizeDTO> dtos){

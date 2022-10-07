@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 import com.clothingstore.Convert.CategoryConvert;
 import com.clothingstore.DTO.CategoryDTO;
 import com.clothingstore.entity.EntityCategory;
+import com.clothingstore.exception.BadRequestException;
+import com.clothingstore.exception.NotFoundException;
 import com.clothingstore.repository.ICategoryRepository;
 import com.clothingstore.service.ICategoryService;
+
+import Message.message;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -28,7 +32,7 @@ public class CategoryService implements ICategoryService {
 		if(!entity.isEmpty()) {
 			return convert.toDTO(entity.get());
 		}
-		return null;
+		throw new NotFoundException("Không có loại sản phẩm náy!");
 	}
 	
 	@Override
@@ -37,21 +41,30 @@ public class CategoryService implements ICategoryService {
 		List<EntityCategory> categories = categoryRepository.findByCategorySlug(categorySlug);
 		if(categories != null && categories.size() > 0) {
 			 categoryDTO = convert.toDTO(categories.get(0));
+			 return categoryDTO;
 		}
-		return categoryDTO;
+		throw new NotFoundException("Không có loại sản phẩm này!");
+		
 	}
 	
 	@Override
 	public List<CategoryDTO> findAll() {
-		return convert.toListDTO(categoryRepository.findAll());
+		return convert.toListDTO(categoryRepository.findByIsActive(true));
 	}
 	
 	 @Override
 	public CategoryDTO insert(CategoryDTO categoryDTO) {
-		EntityCategory entity = convert.toEntity(categoryDTO);
-		entity.setCreatedDate(new Date());
-		entity = categoryRepository.save(entity);
-		return convert.toDTO(entity);
+		 try {
+			EntityCategory entity = convert.toEntity(categoryDTO);
+			entity.setCreatedDate(new Date());
+			entity.setIsActive(true);
+			entity = categoryRepository.save(entity);
+			return convert.toDTO(entity);
+		 }catch(Exception e) {
+			 e.printStackTrace();
+			 
+			 throw new BadRequestException(message.messageBadRequest);
+		 }
 	}
 	 
 	 @Override
@@ -69,22 +82,32 @@ public class CategoryService implements ICategoryService {
 	 
 	 @Override
 	public CategoryDTO update(CategoryDTO categoryDTO) {
-		if (categoryDTO != null) {
-			EntityCategory oldCate = convert.toEntity(findById(categoryDTO.getId()));
-			EntityCategory newCate = convert.toEntity(categoryDTO);
-			if(oldCate != null) {
-				oldCate = convert.toNewCate(oldCate, newCate);
-				oldCate.setModifiedDate(new Date());
-				oldCate = categoryRepository.save(oldCate);
-				return convert.toDTO(oldCate);
+		try {
+			 if (categoryDTO != null) {
+				EntityCategory oldCate = convert.toEntity(findById(categoryDTO.getId()));
+				EntityCategory newCate = convert.toEntity(categoryDTO);
+				if(oldCate != null) {
+					oldCate = convert.toNewCate(oldCate, newCate);
+					oldCate.setModifiedDate(new Date());
+					oldCate = categoryRepository.save(oldCate);
+					return convert.toDTO(oldCate);
+				}
 			}
-		}
-		return null;
+			 throw new BadRequestException(message.messageBadRequest);
+		 }catch(Exception e) {
+			 e.printStackTrace();
+			 throw new BadRequestException(message.messageBadRequest);
+		 }
 	}
 	 
 	 @Override
-		public Long delete(List<Long> ids) {			 
-			return (long) categoryRepository.deleteWithMultiId(ids);
+		public Long delete(List<Long> ids) {	
+		 int i = categoryRepository.deleteWithMultiId(ids);
+			if(i > 0) {
+				return (long) i;
+			}
+			throw new NotFoundException("Không có sản phẩm này");
+			
 		}
 	
 }

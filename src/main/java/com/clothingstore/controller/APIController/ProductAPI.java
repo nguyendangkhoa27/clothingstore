@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clothingstore.DTO.ProductDTO;
-import com.clothingstore.DTO.ProductList;
+import com.clothingstore.exception.BadRequestException;
+import com.clothingstore.exception.MessageResponse;
 import com.clothingstore.service.IProductService;
 
 import io.swagger.annotations.ApiOperation;
@@ -26,11 +28,25 @@ public class ProductAPI {
 	@Autowired
 	private IProductService productService;
 	
+	@GetMapping("/api/product/detail")
+	public MessageResponse<ProductDTO> findOne(@RequestParam String id) {
+		ProductDTO productDTO = null;
+		Pattern pt = Pattern.compile("[^0-9]");
+		Matcher mc = pt.matcher(id);
+		boolean check = mc.find();
+		if(check == false) {
+			Long idLong = Long.parseLong(id);
+			productDTO = productService.findOne(idLong);
+			return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"thành công",productDTO);
+		}
+		throw new BadRequestException("id không phải là chữ");
+	}
+	
 	@ApiOperation(value = "Finds Product by idCategory or CategorySlug",
 		    notes = "param is Long or String *ex: ?param=1 or ?param=T-Shirt ",
 		    response = ProductDTO.class,
 		    responseContainer = "List")
-	@GetMapping("/api/product")
+	@GetMapping("/api/product/")
 	public List<ProductDTO> list(@RequestParam String param) {
 		List<ProductDTO> productDTOs = null;
 			Pattern pattern = Pattern.compile("[^0-9]");// regex [^0-9] tìm những kí tự không phải là số 
@@ -56,10 +72,10 @@ public class ProductAPI {
 		return productDTOs;
 	} 
 	
-	@PostMapping("/api/product/insert-multi")
-	public List<ProductDTO> saveMultiProduct(@RequestBody ProductList listProduct){
-		return productService.insertMultiProduct(listProduct.getList());
-	}
+//	@PostMapping("/api/product/insert-multi")
+//	public List<ProductDTO> saveMultiProduct(@RequestBody ProductList listProduct){
+//		return productService.insertMultiProduct(listProduct.getList());
+//	}
 	
 	@PostMapping("/api/product")
 	public ProductDTO createProduct(@RequestBody ProductDTO dto) {
