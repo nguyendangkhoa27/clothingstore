@@ -3,9 +3,8 @@ package com.clothingstore.DTO;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clothingstore.DTO.Short.AmountShort;
 import com.clothingstore.DTO.Short.CategoryShortDTO;
-import com.clothingstore.DTO.Short.ColorShortDTO;
-import com.clothingstore.DTO.Short.SizeShortDTO;
 
 public class ProductDTO extends AbsDTO {
 
@@ -17,13 +16,17 @@ public class ProductDTO extends AbsDTO {
 
 	private String slug;
 
-	private List<SizeShortDTO> sizes = new ArrayList<>();
-
-	private List<ColorShortDTO> colors = new ArrayList<>();
+	private List<AmountShort> infoProduct = new ArrayList<>();
 
 	private CategoryShortDTO categorySlug;
 
-	
+	public List<AmountShort> getInfoProduct() {
+		return infoProduct;
+	}
+
+	public void setInfoProduct(List<AmountShort> infoProduct) {
+		this.infoProduct = infoProduct;
+	}
 
 	public CategoryShortDTO getCategorySlug() {
 		return categorySlug;
@@ -69,21 +72,6 @@ public class ProductDTO extends AbsDTO {
 		this.slug = slug;
 	}
 	
-	public List<SizeShortDTO> getSizes() {
-		return sizes;
-	}
-
-	public void setSizes(List<SizeShortDTO> sizes) {
-		this.sizes = sizes;
-	}
-
-	public List<ColorShortDTO> getColors() {
-		return colors;
-	}
-
-	public void setColors(List<ColorShortDTO> colors) {
-		this.colors = colors;
-	}
 
 	public int getDiscount() {
 		return discount;

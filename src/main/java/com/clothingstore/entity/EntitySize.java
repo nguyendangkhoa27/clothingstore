@@ -1,10 +1,8 @@
 package com.clothingstore.entity;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,9 +11,9 @@ public class EntitySize extends CoreEntity {
 	@Column(name="name_size")
 	private String nameSize;
 	
-	@ManyToMany(mappedBy = "sizes")
-	private Set<EntityProduct> products;
-
+	@OneToMany(mappedBy = "size")
+	private java.util.List<EntityAmount> amount;
+	
 	public String getNameSize() {
 		return nameSize;
 	}
@@ -24,12 +22,5 @@ public class EntitySize extends CoreEntity {
 		this.nameSize = nameSize;
 	}
 
-	public Set<EntityProduct> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<EntityProduct> products) {
-		this.products = products;
-	}
 	
 }

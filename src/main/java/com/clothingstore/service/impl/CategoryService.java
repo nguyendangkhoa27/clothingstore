@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.clothingstore.Convert.CategoryConvert;
@@ -32,7 +33,7 @@ public class CategoryService implements ICategoryService {
 		if(!entity.isEmpty()) {
 			return convert.toDTO(entity.get());
 		}
-		throw new NotFoundException("Không có loại sản phẩm náy!");
+		throw new NotFoundException("This category is not available!");
 	}
 	
 	@Override
@@ -43,13 +44,23 @@ public class CategoryService implements ICategoryService {
 			 categoryDTO = convert.toDTO(categories.get(0));
 			 return categoryDTO;
 		}
-		throw new NotFoundException("Không có loại sản phẩm này!");
+		throw new NotFoundException("This category is not available");
 		
 	}
 	
 	@Override
-	public List<CategoryDTO> findAll() {
-		return convert.toListDTO(categoryRepository.findByIsActive(true));
+	public List<CategoryDTO> findAll(Pageable pageable) {
+		try {
+		List<CategoryDTO> dtos = convert.toListDTO(categoryRepository.findByIsActiveOrderByIdAsc(pageable,true));
+		if(dtos !=null && dtos.size() > 0) {
+			dtos.forEach(t -> t.setQuantity(35));
+			return dtos;
+		}else {
+			throw new NotFoundException("This categories is not available");
+		}
+		}catch (NotFoundException e) {
+			throw e;
+		}
 	}
 	
 	 @Override
@@ -61,8 +72,6 @@ public class CategoryService implements ICategoryService {
 			entity = categoryRepository.save(entity);
 			return convert.toDTO(entity);
 		 }catch(Exception e) {
-			 e.printStackTrace();
-			 
 			 throw new BadRequestException(message.messageBadRequest);
 		 }
 	}
@@ -94,9 +103,8 @@ public class CategoryService implements ICategoryService {
 				}
 			}
 			 throw new BadRequestException(message.messageBadRequest);
-		 }catch(Exception e) {
-			 e.printStackTrace();
-			 throw new BadRequestException(message.messageBadRequest);
+		 }catch(BadRequestException e) {
+			 throw e;
 		 }
 	}
 	 
@@ -106,7 +114,7 @@ public class CategoryService implements ICategoryService {
 			if(i > 0) {
 				return (long) i;
 			}
-			throw new NotFoundException("Không có sản phẩm này");
+			throw new NotFoundException("This categories is not available!");
 			
 		}
 	

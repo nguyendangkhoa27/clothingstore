@@ -3,18 +3,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="product")
@@ -32,17 +27,8 @@ public class EntityProduct extends CoreEntity {
 	@Column(name="slug",length = 150)
 	private String slug;
 	
-	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-	@Fetch(FetchMode.SELECT)
-	@JoinTable(name="product_size", joinColumns = @JoinColumn(name="product_id"),
-	inverseJoinColumns = @JoinColumn(name="size_id"))
-	private List<EntitySize> sizes = new ArrayList<>();
-
-	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-	@Fetch(FetchMode.SELECT)
-	@JoinTable(name ="product_color", joinColumns = @JoinColumn(name="product_id"),
-	inverseJoinColumns = @JoinColumn(name="color_id"))
-	private List<EntityColor> colors = new ArrayList<>();
+	@OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+	private List<EntityAmount> amounts = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name="category_id")
@@ -91,23 +77,6 @@ public class EntityProduct extends CoreEntity {
 		this.slug = slug;
 	}
 
-
-	public List<EntitySize> getSizes() {
-		return sizes;
-	}
-
-	public void setSizes(List<EntitySize> sizes) {
-		this.sizes = sizes;
-	}
-
-	public List<EntityColor> getColors() {
-		return colors;
-	}
-
-	public void setColors(List<EntityColor> colors) {
-		this.colors = colors;
-	}
-
 	public int getDiscount() {
 		return discount;
 	}
@@ -115,5 +84,15 @@ public class EntityProduct extends CoreEntity {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
+
+	public List<EntityAmount> getAmounts() {
+		return amounts;
+	}
+
+	public void setAmounts(List<EntityAmount> amounts) {
+		this.amounts = amounts;
+	}
+	
+	
 	
 }

@@ -2,13 +2,15 @@ package com.clothingstore.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.clothingstore.DTO.SizeDTO;
 import com.clothingstore.DTO.Short.SizeShortDTO;
 import com.clothingstore.entity.EntitySize;
 
 public interface ISizeService {
 	
-	List<SizeDTO> list();
+	List<SizeDTO> list(Pageable pageable);
 	
 	SizeDTO save(SizeDTO sizeDTO);
 	

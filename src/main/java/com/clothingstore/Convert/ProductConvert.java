@@ -6,25 +6,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.clothingstore.DTO.ColorDTO;
 import com.clothingstore.DTO.ProductDTO;
-import com.clothingstore.DTO.SizeDTO;
+import com.clothingstore.DTO.Short.AmountShort;
 import com.clothingstore.DTO.Short.CategoryShortDTO;
-import com.clothingstore.DTO.Short.ColorShortDTO;
-import com.clothingstore.DTO.Short.SizeShortDTO;
-import com.clothingstore.entity.EntityCategory;
-import com.clothingstore.entity.EntityColor;
+import com.clothingstore.entity.EntityAmount;
 import com.clothingstore.entity.EntityProduct;
-import com.clothingstore.entity.EntitySize;
 
 @Component
 public class ProductConvert {
-
-	@Autowired
-	private SizeConvert sizeConvert;
 	
 	@Autowired
-	private ColorConvert colorConvert;
+	private ConvertAmount amountConvert;
 	
 	public EntityProduct toEntity(ProductDTO productDTO) {
 		EntityProduct entity = new EntityProduct();
@@ -66,26 +58,17 @@ public class ProductConvert {
 			DTO.setSlug(entityProduct.getSlug());
 			DTO.setTitle(entityProduct.getTitle());
 			DTO.setDiscount(entityProduct.getDiscount());
-			
+			List<AmountShort> amountshorts = new  ArrayList<>();
+			for (EntityAmount amount : entityProduct.getAmounts()) {
+				amountshorts.add(amountConvert.toAmountShort(amount));
+			}
+			DTO.setInfoProduct(amountshorts);
 			DTO.setCategorySlug(new CategoryShortDTO(entityProduct.getCategory().getId(), entityProduct.getCategory().getCategorySlug()));
 			DTO.setCreatedBy(entityProduct.getCreatedBy());
 			DTO.setCreatedDate(entityProduct.getCreatedDate());
 			DTO.setModifiedBy(entityProduct.getModifiedBy());
 			DTO.setModifiedDate(entityProduct.getModifiedDate());
-			if(entityProduct.getColors() !=null && entityProduct.getColors().size() > 0) {
-				List<ColorShortDTO> colors = new ArrayList<>();
-				for (EntityColor color : entityProduct.getColors() ) {
-					colors.add(new ColorShortDTO(color.getId(), color.getColorName()));
-				}
-				DTO.setColors(colors);
-			}
-			if(entityProduct.getSizes() !=null && entityProduct.getSizes().size() > 0) {
-				List<SizeShortDTO> sizes = new ArrayList<>();
-				for (EntitySize size : entityProduct.getSizes() ) {
-					sizes.add(new SizeShortDTO(size.getId(), size.getNameSize()));
-				}
-				DTO.setSizes(sizes);
-			}
+			
 		}
 		return DTO;
 	}

@@ -20,4 +20,10 @@ public class customExcetionHandler{
 		public MessageResponse<?> handlerBadRequestException(BadRequestException ex,  WebRequest req) {
 			return new MessageResponse<>(HttpStatus.BAD_REQUEST.value(),HttpStatus.BAD_REQUEST, ex.getMessage());
 		}
+		
+		@ExceptionHandler(IncorrectException.class)
+		@ResponseStatus(HttpStatus.BAD_REQUEST)
+		public MessageResponse<?> handlerIncorrectException(IncorrectException ex,  WebRequest req) {
+			return new MessageResponse<>(HttpStatus.BAD_REQUEST.value(),HttpStatus.BAD_REQUEST, ex.getMessage());
+		}
 }

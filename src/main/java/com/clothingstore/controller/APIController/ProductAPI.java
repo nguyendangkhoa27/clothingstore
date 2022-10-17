@@ -5,7 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +24,7 @@ import com.clothingstore.exception.MessageResponse;
 import com.clothingstore.service.IProductService;
 
 import io.swagger.annotations.ApiOperation;
-
+@CrossOrigin(origins = "*")
 @RestController(value="apiProductOfAdmin")
 public class ProductAPI {
 
@@ -37,7 +41,7 @@ public class ProductAPI {
 		if(check == false) {
 			Long idLong = Long.parseLong(id);
 			productDTO = productService.findOne(idLong);
-			return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"thành công",productDTO);
+			return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productDTO);
 		}
 		throw new BadRequestException("id không phải là chữ");
 	}
@@ -47,19 +51,26 @@ public class ProductAPI {
 		    response = ProductDTO.class,
 		    responseContainer = "List")
 	@GetMapping("/api/product/")
-	public List<ProductDTO> list(@RequestParam String param) {
-		List<ProductDTO> productDTOs = null;
-			Pattern pattern = Pattern.compile("[^0-9]");// regex [^0-9] tìm những kí tự không phải là số 
-			Matcher mattcher = pattern.matcher(param);
-			boolean check = mattcher.find();//check
-			if(check) {//nếu bằng true => param có chữ 
-				productDTOs = productService.findAllByCagorySlug(param);
-			}else {
-			Long idcate =Long.parseLong(param);
-			productDTOs = productService.findAllByCategory(idcate);
-			}
-		
-		return productDTOs;
+	public MessageResponse<List<ProductDTO>> list(
+			@RequestParam String param ,
+			@RequestParam(name ="page", required = false) Integer Page,
+			@RequestParam(name ="size", required = false) Integer Size) {
+				Pageable pageable = null;
+				if(Page!=null && Size!=null) {
+					pageable = PageRequest.of(Page,Size);
+				}
+				List<ProductDTO> productDTOs = null;
+					Pattern pattern = Pattern.compile("[^0-9]");// regex [^0-9] tìm những kí tự không phải là số 
+					Matcher mattcher = pattern.matcher(param);
+					boolean check = mattcher.find();//check
+					if(check) {//nếu bằng true => param có chữ 
+						productDTOs = productService.findAllByCagorySlug(param,pageable);
+					}else {
+						Long idcate =Long.parseLong(param);
+						productDTOs = productService.findAllByCategory(idcate,pageable);
+					}
+				
+				return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productDTOs);
 	} 
 	@ApiOperation(value = "Finds Product by object Search Product",
 		    notes = "object{ id,name,price,category,is_active}",
@@ -67,9 +78,15 @@ public class ProductAPI {
 		    responseContainer = "List")
 
 	@GetMapping("/api/product/all")
-	public List<ProductDTO> list() {
-		List<ProductDTO> productDTOs =  productService.findAll();
-		return productDTOs;
+	public MessageResponse<List<ProductDTO>> list(
+			@RequestParam(name ="page", required = false) Integer Page,
+			@RequestParam(name ="size", required = false) Integer Size) {
+		Pageable pageable = null;
+		if(Page!=null && Size!=null) {
+			pageable = PageRequest.of(Page,Size);
+		}
+		List<ProductDTO> productDTOs =  productService.findAll(pageable);
+		return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productDTOs);
 	} 
 	
 //	@PostMapping("/api/product/insert-multi")
@@ -78,20 +95,20 @@ public class ProductAPI {
 //	}
 	
 	@PostMapping("/api/product")
-	public ProductDTO createProduct(@RequestBody ProductDTO dto) {
+	public MessageResponse<ProductDTO> createProduct(@RequestBody ProductDTO dto) {
 			dto.setId(null);
 			dto = productService.insert(dto);
-		return dto;
+		return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",dto);
 	} 
 	@PutMapping("/api/product")
-	public ProductDTO updateProduct(@RequestBody ProductDTO dto) {
+	public MessageResponse<ProductDTO> updateProduct(@RequestBody ProductDTO dto) {
 			dto = productService.update(dto);
-		return dto;
+		return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",dto);
 	} 
 	
 	@DeleteMapping("/api/product")
-	public Long deleteProduct(@RequestBody List<Long> ids) {
-		return productService.deleteProduct(ids);
+	public MessageResponse<Long> deleteProduct(@RequestBody List<Long> ids) {
+		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productService.deleteProduct(ids));
 	}
 	
 	

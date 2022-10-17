@@ -10,7 +10,7 @@ public class CategoryDTO extends AbsDTO {
 	
 	private List<String> img;
 
-
+	private int quantity;
 	public String getCategorySlug() {
 		return categorySlug;
 	}
@@ -25,6 +25,14 @@ public class CategoryDTO extends AbsDTO {
 
 	public void setImg(List<String> img) {
 		this.img = img;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	

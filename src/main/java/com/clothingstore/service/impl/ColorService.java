@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.clothingstore.Convert.ColorConvert;
@@ -29,8 +30,8 @@ public class ColorService implements IColorService {
 	private ColorConvert colorConvert;
 	
 	@Override
-	public List<ColorDTO> list() {
-		return colorConvert.toListDTO(colorRepository.findByIsActive(true));
+	public List<ColorDTO> list(Pageable pageable) {
+		return colorConvert.toListDTO(colorRepository.findByIsActiveOrderByIdAsc(true));
 	}
 	
 	@Override
@@ -40,7 +41,6 @@ public class ColorService implements IColorService {
 			color.setCreatedDate(new Date());
 			return  colorConvert.toDTO(colorRepository.save(colorConvert.toEntity(color)));
 		}catch(Exception e) {
-			e.printStackTrace();
 			throw new BadRequestException(message.messageBadRequest);
 		}
 	}
@@ -65,7 +65,7 @@ public class ColorService implements IColorService {
 			if(i > 0) {
 				return (long) i;
 			}
-			throw new NotFoundException("Không có sản phẩm này");
+			throw new NotFoundException(message.messageColorIsNotFound);
 		
 	}
 	@Override
@@ -90,9 +90,9 @@ public class ColorService implements IColorService {
 				if(dto !=null ) {
 					return dto;
 				}
-				throw new NotFoundException("Không có màu này!");
-			}catch(Exception e) {
-				throw new BadRequestException(message.messageBadRequest);
+				throw new NotFoundException(message.messageColorIsNotFound);
+			}catch(NotFoundException  e) {
+				throw e;
 			}
 			
 		}

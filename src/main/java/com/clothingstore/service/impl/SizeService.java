@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.clothingstore.Convert.SizeConvert;
@@ -27,8 +28,8 @@ public class SizeService implements ISizeService {
 	@Autowired
 	private SizeConvert convert;
 	 @Override
-	public List<SizeDTO> list() {
-		return convert.toSizeDTOs(iSizeRepository.findByIsActive(true));
+	public List<SizeDTO> list(Pageable pageable) {
+		return convert.toSizeDTOs(iSizeRepository.findByIsActiveOrderByIdAsc(pageable,true));
 	}
 	 
 	 @Override
@@ -66,7 +67,7 @@ public class SizeService implements ISizeService {
 			if(i > 0) {
 				return (long) i;
 			}
-			throw new NotFoundException("Không có sản phẩm này");
+			throw new NotFoundException(message.messageSizeIsNotFound);
 		
 	}
 	 
@@ -85,7 +86,7 @@ public class SizeService implements ISizeService {
 					if(dto !=null ) {
 						return dto;
 					}
-					throw new NotFoundException("Không có size này!");
+					throw new NotFoundException(message.messageSizeIsNotFound);
 				}catch(Exception e) {
 					throw new BadRequestException(message.messageBadRequest);
 				}

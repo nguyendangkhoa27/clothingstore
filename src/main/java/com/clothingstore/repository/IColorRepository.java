@@ -25,5 +25,5 @@ public interface IColorRepository extends JpaRepository<EntityColor, Long> {
 	@Query(value="Select * from color WHERE is_active = true AND id IN (:ids)",nativeQuery = true)
 	public List<EntityColor> findByColorIds(@Param("ids") List<Long> ids);
 	
-	List<EntityColor> findByIsActive(boolean isActive);
+	List<EntityColor> findByIsActiveOrderByIdAsc(boolean isActive);
 }

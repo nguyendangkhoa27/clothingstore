@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +25,5 @@ public interface ISizeRepository extends JpaRepository<EntitySize, Long> {
 	@Query(value="SELECT * FROM size WHERE is_active = true AND id IN (:ids)",nativeQuery = true)
 	List<EntitySize> FindSizeByIds(@Param("ids") List<Long> ids);
 	
-	List<EntitySize> findByIsActive(boolean isActive);
+	List<EntitySize> findByIsActiveOrderByIdAsc(Pageable pageable ,boolean isActive);
 }

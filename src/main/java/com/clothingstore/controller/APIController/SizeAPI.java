@@ -5,7 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +21,21 @@ import com.clothingstore.DTO.SizeDTO;
 import com.clothingstore.exception.BadRequestException;
 import com.clothingstore.exception.MessageResponse;
 import com.clothingstore.service.ISizeService;
-
+@CrossOrigin(origins = "*")
 @RestController(value="apiSizeOfAdmin")
 public class SizeAPI {
 	@Autowired
 	private ISizeService sizeService; 
 	
 	@GetMapping("/api/size/all")
-	public List<SizeDTO> list(){
-		return sizeService.list();
+	public MessageResponse<List<SizeDTO>> list(
+			@RequestParam(name ="page", required = false) Integer Page,
+			@RequestParam(name ="size", required = false) Integer Size) {
+		Pageable pageable = null;
+		if(Page!=null && Size!=null) {
+			pageable = PageRequest.of(Page,Size);
+		}
+		return new MessageResponse<List<SizeDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success", sizeService.list(pageable));
 	}
 	@GetMapping("/api/size/")
 	public MessageResponse<SizeDTO> findOne(@RequestParam String id){
@@ -40,17 +49,17 @@ public class SizeAPI {
 		
 	}
 	@PostMapping("/api/size")
-	public SizeDTO save(@RequestBody SizeDTO sizeDTO){
-		return sizeService.save(sizeDTO);
+	public MessageResponse<SizeDTO> save(@RequestBody SizeDTO sizeDTO){
+		return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.save(sizeDTO));
 	}
 	
 	@PutMapping("/api/size")
-	public SizeDTO update(@RequestBody SizeDTO sizeDTO){
-		return sizeService.update(sizeDTO);
+	public MessageResponse<SizeDTO> update(@RequestBody SizeDTO sizeDTO){
+		return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.update(sizeDTO));
 	}
 	
 	@DeleteMapping("/api/size")
-	public Long delete(@RequestBody List<Long> ids){
-		return sizeService.delete(ids);
+	public MessageResponse<Long> delete(@RequestBody List<Long> ids){
+		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.delete(ids));
 	}
 }
