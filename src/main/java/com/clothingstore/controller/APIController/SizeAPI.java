@@ -35,7 +35,7 @@ public class SizeAPI {
 		if(Page!=null && Size!=null) {
 			pageable = PageRequest.of(Page,Size);
 		}
-		return new MessageResponse<List<SizeDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success", sizeService.list(pageable));
+		return new MessageResponse<List<SizeDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all size successfully", sizeService.list(pageable));
 	}
 	@GetMapping("/api/size/")
 	public MessageResponse<SizeDTO> findOne(@RequestParam String id){
@@ -43,23 +43,23 @@ public class SizeAPI {
 		Matcher mc = pt.matcher(id);
 		boolean check = mc.find();
 		if(check == false) {
-			return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.findOne(Long.parseLong(id)));
+			return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Find size by id :"+id+"successfully",sizeService.findOne(Long.parseLong(id)));
 		}
-		throw new BadRequestException("id không phải là chữ");
+		throw new BadRequestException("id not found");
 		
 	}
 	@PostMapping("/api/size")
 	public MessageResponse<SizeDTO> save(@RequestBody SizeDTO sizeDTO){
-		return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.save(sizeDTO));
+		return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Save size successfully",sizeService.save(sizeDTO));
 	}
 	
 	@PutMapping("/api/size")
 	public MessageResponse<SizeDTO> update(@RequestBody SizeDTO sizeDTO){
-		return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.update(sizeDTO));
+		return new MessageResponse<SizeDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Update size successfully",sizeService.update(sizeDTO));
 	}
 	
 	@DeleteMapping("/api/size")
 	public MessageResponse<Long> delete(@RequestBody List<Long> ids){
-		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Thành công",sizeService.delete(ids));
+		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Delete Size successfully",sizeService.delete(ids));
 	}
 }

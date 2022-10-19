@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +26,5 @@ public interface IColorRepository extends JpaRepository<EntityColor, Long> {
 	@Query(value="Select * from color WHERE is_active = true AND id IN (:ids)",nativeQuery = true)
 	public List<EntityColor> findByColorIds(@Param("ids") List<Long> ids);
 	
-	List<EntityColor> findByIsActiveOrderByIdAsc(boolean isActive);
+	List<EntityColor> findByIsActiveOrderByIdAsc(Pageable pageable,boolean isActive);
 }

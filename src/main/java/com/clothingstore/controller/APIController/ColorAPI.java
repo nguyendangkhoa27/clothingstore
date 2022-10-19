@@ -30,13 +30,14 @@ public class ColorAPI {
 	
 	@GetMapping("/api/color/all")
 	public MessageResponse<List<ColorDTO>> list(
-			@RequestParam(name ="page", required = false) Integer Page,
-			@RequestParam(name ="size", required = false) Integer Size) {
+			@RequestParam(name ="page", required = false) Integer page,
+			@RequestParam(name ="size", required = false) Integer size) {
 				Pageable pageable = null;
-				if(Page!=null && Size!=null) {
-					pageable = PageRequest.of(Page,Size);
+				if(page!=null && size!=null) {
+					page = page-1;
+					pageable = PageRequest.of(page,size);
 				}
-		return new MessageResponse<List<ColorDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success",colorService.list(pageable));
+		return new MessageResponse<List<ColorDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all color successfully",colorService.list(pageable));
 	}
 	
 	@GetMapping("/api/color/")
@@ -45,24 +46,25 @@ public class ColorAPI {
 		Matcher mc = pt.matcher(id);
 		boolean check = mc.find();
 		if(check == false) {
-			return new MessageResponse<ColorDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",colorService.findOne(Long.parseLong(id)));
+			return new MessageResponse<ColorDTO>(HttpStatus.OK.value(),HttpStatus.OK,"find color by id: "+id+" successfully",colorService.findOne(Long.parseLong(id)));
+			
 		}
-		throw new BadRequestException("id không phải là chữ");
+		throw new BadRequestException("id not found!");
 		
 	}
 	
 	@PostMapping("/api/color")
 	public MessageResponse<ColorDTO> save(@RequestBody ColorDTO color){
-		return new MessageResponse<ColorDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",colorService.save(color));
+		return new MessageResponse<ColorDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Save color successfully",colorService.save(color));
 	}
 	
 	@PutMapping("/api/color")
 	public MessageResponse<ColorDTO> update(@RequestBody ColorDTO color){
-		return new MessageResponse<ColorDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",colorService.update(color));
+		return new MessageResponse<ColorDTO>(HttpStatus.OK.value(),HttpStatus.OK,"update color successfully",colorService.update(color));
 	}
 	
 	@DeleteMapping("/api/color")
 	public MessageResponse<Long> delete(@RequestBody List<Long> ids){
-		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Deleted",colorService.delete(ids));
+		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Delete color successfully",colorService.delete(ids));
 	}
 }

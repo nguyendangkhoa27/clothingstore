@@ -29,7 +29,7 @@ public class CategoryAPI {
 	@GetMapping("/api/category")
 	public MessageResponse<CategoryDTO> findOne(@RequestParam String id){
 		Long idLong = Long.parseLong(id);
-		return new MessageResponse<CategoryDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",categoryService.findById(idLong));
+		return new MessageResponse<CategoryDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Find category by id: "+id+" successfully",categoryService.findById(idLong));
 	}
 	
 	@GetMapping("/api/category/all")
@@ -40,22 +40,22 @@ public class CategoryAPI {
 				if(Page!=null && Size!=null) {
 					pageable = PageRequest.of(Page,Size);
 				}
-		return new MessageResponse<List<CategoryDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success",categoryService.findAll(pageable));
+		return new MessageResponse<List<CategoryDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find All list category successfully",categoryService.findAll(pageable));
 	}
 	
 	@PostMapping("/api/category")
 	public MessageResponse<CategoryDTO> save(@RequestBody CategoryDTO category){
 		category.setId(null);
-		return new MessageResponse<CategoryDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",categoryService.insert(category));
+		return new MessageResponse<CategoryDTO>(HttpStatus.OK.value(),HttpStatus.OK,"save category successfully",categoryService.insert(category));
 	}
 	@PutMapping("/api/category")
 	public MessageResponse<CategoryDTO> update(@RequestBody CategoryDTO category){
-		return new MessageResponse<CategoryDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",categoryService.update(category));
+		return new MessageResponse<CategoryDTO>(HttpStatus.OK.value(),HttpStatus.OK,"update category successfully",categoryService.update(category));
 	}
 	
 	@DeleteMapping("/api/category")
 	public MessageResponse<Long> delete(@RequestBody List<Long> ids) {
-		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Deleted",categoryService.delete(ids));
+		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Delete category successfully ",categoryService.delete(ids));
 	}
 	
 	

@@ -31,7 +31,11 @@ public class ProductConvert {
 		entity.setDiscount(productDTO.getDiscount());
 		entity.setIsActive(productDTO.getIsActive());
 		entity.setPrice(productDTO.getPrice());
-		entity.setSlug(productDTO.getSlug());
+		if(productDTO.getTitle() != null && !productDTO.getTitle().isEmpty()) {
+			String slug =  productDTO.getTitle().trim().replaceAll(" ", "-");
+			entity.setSlug(slug);
+			
+		}
 		entity.setTitle(productDTO.getTitle());
 		entity.setCreatedBy(productDTO.getCreatedBy());
 		entity.setCreatedDate(productDTO.getCreatedDate());

@@ -31,7 +31,7 @@ public class ColorService implements IColorService {
 	
 	@Override
 	public List<ColorDTO> list(Pageable pageable) {
-		return colorConvert.toListDTO(colorRepository.findByIsActiveOrderByIdAsc(true));
+		return colorConvert.toListDTO(colorRepository.findByIsActiveOrderByIdAsc(pageable,true));
 	}
 	
 	@Override

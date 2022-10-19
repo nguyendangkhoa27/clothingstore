@@ -41,9 +41,9 @@ public class ProductAPI {
 		if(check == false) {
 			Long idLong = Long.parseLong(id);
 			productDTO = productService.findOne(idLong);
-			return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productDTO);
+			return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Find product by id: "+id+" successfully",productDTO);
 		}
-		throw new BadRequestException("id không phải là chữ");
+		throw new BadRequestException("id not found!");
 	}
 	
 	@ApiOperation(value = "Finds Product by idCategory or CategorySlug",
@@ -70,7 +70,7 @@ public class ProductAPI {
 						productDTOs = productService.findAllByCategory(idcate,pageable);
 					}
 				
-				return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productDTOs);
+				return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find product by category successfully",productDTOs);
 	} 
 	@ApiOperation(value = "Finds Product by object Search Product",
 		    notes = "object{ id,name,price,category,is_active}",
@@ -86,7 +86,7 @@ public class ProductAPI {
 			pageable = PageRequest.of(Page,Size);
 		}
 		List<ProductDTO> productDTOs =  productService.findAll(pageable);
-		return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productDTOs);
+		return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all product successfully",productDTOs);
 	} 
 	
 //	@PostMapping("/api/product/insert-multi")
@@ -98,17 +98,17 @@ public class ProductAPI {
 	public MessageResponse<ProductDTO> createProduct(@RequestBody ProductDTO dto) {
 			dto.setId(null);
 			dto = productService.insert(dto);
-		return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",dto);
+		return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Save product successfully",dto);
 	} 
 	@PutMapping("/api/product")
 	public MessageResponse<ProductDTO> updateProduct(@RequestBody ProductDTO dto) {
 			dto = productService.update(dto);
-		return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Success",dto);
+		return new MessageResponse<ProductDTO>(HttpStatus.OK.value(),HttpStatus.OK,"Update product successfully",dto);
 	} 
 	
 	@DeleteMapping("/api/product")
 	public MessageResponse<Long> deleteProduct(@RequestBody List<Long> ids) {
-		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Success",productService.deleteProduct(ids));
+		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Delete product successfully",productService.deleteProduct(ids));
 	}
 	
 	
