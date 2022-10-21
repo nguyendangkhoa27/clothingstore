@@ -19,4 +19,6 @@ public interface ICategoryRepository extends JpaRepository<EntityCategory, Long>
 	@Modifying
 	@Query(value = "update category set is_active = false where id IN (:ids)", nativeQuery = true)
 	public int deleteWithMultiId(@Param("ids") List<Long> ids);
+	
+	Long countByIsActive(boolean isActive);
 }

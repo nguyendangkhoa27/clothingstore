@@ -23,4 +23,5 @@ public interface IColorService {
 	List<EntityColor> findByColorIds(List<ColorShortDTO> colorShorts);
 	
 	ColorDTO findOne(Long id);
+	Integer count(boolean isActive);
 }

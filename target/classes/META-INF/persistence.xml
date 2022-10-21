@@ -10,6 +10,9 @@
 				<class>com.clothingstore.entity.EntityRole</class>
 				<class>com.clothingstore.entity.EntitySize</class>
 				<class>com.clothingstore.entity.EntityUser</class>
-				
+				<class>com.clothingstore.entity.EntityCart</class>
+				<class>com.clothingstore.entity.EntityCartDetail</class>
+				<class>com.clothingstore.entity.EntityOrderDetail</class>
+				<class>com.clothingstore.entity.EntityOrder</class>
     </persistence-unit>
 </persistence>

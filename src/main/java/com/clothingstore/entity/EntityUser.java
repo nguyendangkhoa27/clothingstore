@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,6 +38,29 @@ public class EntityUser extends CoreEntity {
 	@JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
 	inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<EntityRole> roles = new ArrayList<>();
+	
+	@OneToOne(mappedBy = "user")
+	private EntityCart cart;
+	
+	@OneToMany(mappedBy = "user")
+	private List<EntityOrder> orders;
+	
+	
+	public List<EntityOrder> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<EntityOrder> orders) {
+		this.orders = orders;
+	}
+
+	public EntityCart getCart() {
+		return cart;
+	}
+
+	public void setCart(EntityCart cart) {
+		this.cart = cart;
+	}
 
 	public String getFirstName() {
 		return firstName;

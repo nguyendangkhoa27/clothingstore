@@ -6,7 +6,9 @@ public class MessageResponse<T> {
 	private Integer code;
 	private HttpStatus status;
 	private String message;
+	private Integer totalReturn;
 	private T object;
+	
 	public MessageResponse() {}
 	
 	public MessageResponse(Integer code,HttpStatus status, String message) {
@@ -21,6 +23,14 @@ public class MessageResponse<T> {
 		this.status = status;
 		this.message = message;
 		this.object = object;
+	}
+	public MessageResponse(Integer code,HttpStatus status, String message,T object,Integer total) {
+		super();
+		this.code = code;
+		this.status = status;
+		this.message = message;
+		this.object = object;
+		this.totalReturn =total;
 	}
 	public HttpStatus getStatus() {
 		return status;
@@ -49,6 +59,14 @@ public class MessageResponse<T> {
 
 	public void setObject(T object) {
 		this.object = object;
+	}
+
+	public Integer getTotalReturn() {
+		return totalReturn;
+	}
+
+	public void setTotalReturn(Integer totalReturn) {
+		this.totalReturn = totalReturn;
 	}
 	
 	

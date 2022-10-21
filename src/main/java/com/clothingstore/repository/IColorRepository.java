@@ -27,4 +27,6 @@ public interface IColorRepository extends JpaRepository<EntityColor, Long> {
 	public List<EntityColor> findByColorIds(@Param("ids") List<Long> ids);
 	
 	List<EntityColor> findByIsActiveOrderByIdAsc(Pageable pageable,boolean isActive);
+	
+	Long countByIsActive(boolean isActive);
 }

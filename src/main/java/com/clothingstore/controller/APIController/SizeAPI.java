@@ -29,13 +29,14 @@ public class SizeAPI {
 	
 	@GetMapping("/api/size/all")
 	public MessageResponse<List<SizeDTO>> list(
-			@RequestParam(name ="page", required = false) Integer Page,
-			@RequestParam(name ="size", required = false) Integer Size) {
-		Pageable pageable = null;
-		if(Page!=null && Size!=null) {
-			pageable = PageRequest.of(Page,Size);
-		}
-		return new MessageResponse<List<SizeDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all size successfully", sizeService.list(pageable));
+			@RequestParam(name ="page", required = false) Integer page,
+			@RequestParam(name ="size", required = false) Integer size) {
+				Pageable pageable = null;
+				if(page !=null && size !=null && page>0 && size >0) {
+					page = page-1;
+					pageable = PageRequest.of(page,size);
+				}
+		return new MessageResponse<List<SizeDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all size successfully", sizeService.list(pageable),sizeService.count(true));
 	}
 	@GetMapping("/api/size/")
 	public MessageResponse<SizeDTO> findOne(@RequestParam String id){

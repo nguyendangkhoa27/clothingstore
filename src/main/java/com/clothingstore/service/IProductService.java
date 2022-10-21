@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import com.clothingstore.DTO.ProductDTO;
+import com.clothingstore.entity.EntityCategory;
 
 
 public interface IProductService {
@@ -24,4 +25,6 @@ public interface IProductService {
 	public List<ProductDTO> insertMultiProduct(List<ProductDTO> products);
 	
 	public Long deleteProduct(List<Long> ids);
+	Integer count(boolean isActive);
+	Integer count(boolean isActive,String categorySlug);
 }

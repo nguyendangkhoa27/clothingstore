@@ -26,4 +26,6 @@ public interface ISizeRepository extends JpaRepository<EntitySize, Long> {
 	List<EntitySize> FindSizeByIds(@Param("ids") List<Long> ids);
 	
 	List<EntitySize> findByIsActiveOrderByIdAsc(Pageable pageable ,boolean isActive);
+	
+	Long countByIsActive(boolean isActive);
 }

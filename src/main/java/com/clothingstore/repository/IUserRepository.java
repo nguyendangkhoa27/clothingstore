@@ -8,4 +8,5 @@ import com.clothingstore.entity.EntityUser;
 
 public interface IUserRepository extends JpaRepository<EntityUser, Long> {
 		List<EntityUser> findByUserName(String userName);
+		Long countByIsActive(boolean isActive);
 }

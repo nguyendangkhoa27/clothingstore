@@ -92,4 +92,10 @@ public class SizeService implements ISizeService {
 				}
 				
 			}
+	 
+	 @Override
+		public Integer count(boolean isActive) {
+			Integer total = iSizeRepository.countByIsActive(isActive).intValue();
+			return total;
+		}
 }

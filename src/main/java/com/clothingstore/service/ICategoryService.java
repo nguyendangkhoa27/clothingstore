@@ -14,5 +14,6 @@ public interface ICategoryService {
 	Long delete(List<Long> ids);
 	List<CategoryDTO> insertMultiCategory(List<CategoryDTO> categories);
 	CategoryDTO findByCategorySlug(String categorySlug);
+	Integer count(boolean isActive);
 	
 }

@@ -29,4 +29,7 @@ public interface IProductRepository extends JpaRepository<EntityProduct, Long>  
 		
 		@Query(value="Select * from product where is_active = true AND category_id = :idCate LIMIT :limit OFFSET :offset" , nativeQuery=true)
 		List<EntityProduct> findByIdCategory(@Param("idCate") Long idCate,@Param("limit") Integer limit,@Param("offset") Long offset );
+		
+		Long countByIsActive(boolean isActive);
+		Long countByIsActiveAndCategory(boolean isActive,EntityCategory category);
 }

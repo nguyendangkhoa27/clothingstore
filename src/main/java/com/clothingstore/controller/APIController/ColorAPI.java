@@ -33,11 +33,11 @@ public class ColorAPI {
 			@RequestParam(name ="page", required = false) Integer page,
 			@RequestParam(name ="size", required = false) Integer size) {
 				Pageable pageable = null;
-				if(page!=null && size!=null) {
+				if(page !=null && size !=null && page>0 && size >0) {
 					page = page-1;
 					pageable = PageRequest.of(page,size);
 				}
-		return new MessageResponse<List<ColorDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all color successfully",colorService.list(pageable));
+		return new MessageResponse<List<ColorDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all color successfully",colorService.list(pageable),colorService.count(true));
 	}
 	
 	@GetMapping("/api/color/")

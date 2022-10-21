@@ -34,13 +34,14 @@ public class CategoryAPI {
 	
 	@GetMapping("/api/category/all")
 	public MessageResponse<List<CategoryDTO>> List(
-			@RequestParam(name ="page", required = false) Integer Page,
-			@RequestParam(name ="size", required = false) Integer Size) {
+			@RequestParam(name ="page", required = false) Integer page,
+			@RequestParam(name ="size", required = false) Integer size) {
 				Pageable pageable = null;
-				if(Page!=null && Size!=null) {
-					pageable = PageRequest.of(Page,Size);
+				if(page !=null && size !=null && page>0 && size >0) {
+					page = page-1;
+					pageable = PageRequest.of(page,size);
 				}
-		return new MessageResponse<List<CategoryDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find All list category successfully",categoryService.findAll(pageable));
+		return new MessageResponse<List<CategoryDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find All list category successfully",categoryService.findAll(pageable),categoryService.count(true));
 	}
 	
 	@PostMapping("/api/category")

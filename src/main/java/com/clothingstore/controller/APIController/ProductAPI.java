@@ -53,12 +53,14 @@ public class ProductAPI {
 	@GetMapping("/api/product/")
 	public MessageResponse<List<ProductDTO>> list(
 			@RequestParam String param ,
-			@RequestParam(name ="page", required = false) Integer Page,
-			@RequestParam(name ="size", required = false) Integer Size) {
+			@RequestParam(name ="page", required = false) Integer page,
+			@RequestParam(name ="size", required = false) Integer size) {
 				Pageable pageable = null;
-				if(Page!=null && Size!=null) {
-					pageable = PageRequest.of(Page,Size);
+				if(page !=null && size !=null && page>0 && size >0) {
+					page = page-1;
+					pageable = PageRequest.of(page,size);
 				}
+				int count = 0;
 				List<ProductDTO> productDTOs = null;
 					Pattern pattern = Pattern.compile("[^0-9]");// regex [^0-9] tìm những kí tự không phải là số 
 					Matcher mattcher = pattern.matcher(param);
@@ -68,9 +70,10 @@ public class ProductAPI {
 					}else {
 						Long idcate =Long.parseLong(param);
 						productDTOs = productService.findAllByCategory(idcate,pageable);
+						count = productService.count(true, productDTOs.get(0).getCategorySlug().getCategoryName());
 					}
 				
-				return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find product by category successfully",productDTOs);
+				return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find product by category successfully",productDTOs,count);
 	} 
 	@ApiOperation(value = "Finds Product by object Search Product",
 		    notes = "object{ id,name,price,category,is_active}",
@@ -79,14 +82,15 @@ public class ProductAPI {
 
 	@GetMapping("/api/product/all")
 	public MessageResponse<List<ProductDTO>> list(
-			@RequestParam(name ="page", required = false) Integer Page,
-			@RequestParam(name ="size", required = false) Integer Size) {
-		Pageable pageable = null;
-		if(Page!=null && Size!=null) {
-			pageable = PageRequest.of(Page,Size);
-		}
+			@RequestParam(name ="page", required = false) Integer page,
+			@RequestParam(name ="size", required = false) Integer size) {
+				Pageable pageable = null;
+				if( page !=null && size !=null && page>0 && size >0) {
+					page = page-1;
+					pageable = PageRequest.of(page,size);
+				}
 		List<ProductDTO> productDTOs =  productService.findAll(pageable);
-		return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all product successfully",productDTOs);
+		return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"Find all product successfully",productDTOs,productService.count(true));
 	} 
 	
 //	@PostMapping("/api/product/insert-multi")

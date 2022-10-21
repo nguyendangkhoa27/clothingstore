@@ -96,5 +96,10 @@ public class ColorService implements IColorService {
 			}
 			
 		}
+	 @Override
+		public Integer count(boolean isActive) {
+			Integer total = colorRepository.countByIsActive(isActive).intValue();
+			return total;
+		}
 	
 }

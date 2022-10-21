@@ -117,5 +117,11 @@ public class CategoryService implements ICategoryService {
 			throw new NotFoundException("This categories is not available!");
 			
 		}
+
+		@Override
+		public Integer count(boolean isActive) {
+			Integer total = categoryRepository.countByIsActive(isActive).intValue();
+			return total;
+		}
 	
 }

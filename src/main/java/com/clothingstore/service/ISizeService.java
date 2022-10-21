@@ -22,4 +22,5 @@ public interface ISizeService {
 	
 	List<EntitySize> findSizeByIds(List<SizeShortDTO> sizeShorts);
 	SizeDTO  findOne(Long id);
+	Integer count(boolean isActive);
 }
