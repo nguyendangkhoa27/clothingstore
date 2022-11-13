@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="category")
 public class EntityCategory extends CoreEntity {
 
-	@Column(name="category_slug", length = 150)
+	@Column(name="category_slug", length = 150,unique=true,nullable=false)
 	private String categorySlug;
 	
 	@Column(name="image",columnDefinition = "TEXT")

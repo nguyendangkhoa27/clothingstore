@@ -32,4 +32,6 @@ public interface IProductRepository extends JpaRepository<EntityProduct, Long>  
 		
 		Long countByIsActive(boolean isActive);
 		Long countByIsActiveAndCategory(boolean isActive,EntityCategory category);
+		
+		List<EntityProduct> findByIsActiveTrueAndTitleIsContaining(String title);
 }

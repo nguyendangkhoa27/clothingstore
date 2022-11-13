@@ -15,4 +15,8 @@ public interface IAmountRepository extends JpaRepository<EntityAmount, Long> {
 
 	@Query(value="select * from amount where product_id = :productId AND size_id = :sizeId AND color_id = :colorId",nativeQuery = true)
  	public List<EntityAmount> findByIdProductAndIdSizeAndIdColor(@Param("productId") Long idproduct, @Param("sizeId") Long idSize, @Param("colorId") Long idColor);
+
+	@Query(value="select * from amount where product_id = :productId AND color_id = :colorId",nativeQuery = true)
+ 	public List<EntityAmount> findByIdProductAndIdColor(@Param("productId") Long idproduct, @Param("colorId") Long idColor);
+
 }

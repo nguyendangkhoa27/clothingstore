@@ -14,27 +14,27 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="\"user\"")
+@Table(name="users")
 public class EntityUser extends CoreEntity {
-	@Column(name="first_name", length=50)
+	@Column(name="first_name", length=50,nullable = false)
 	private String firstName;
 	
-	@Column(name="last_name", length=50)
+	@Column(name="last_name", length=50,nullable = false)
 	private String lastName;
 	
-	@Column(name="email", length=150)
+	@Column(name="email", length=150,unique = true,nullable = false)
 	private String email;
 	
 	@Column(name="phone_number", length=20)
 	private String phoneNumber;
 	
-	@Column(name="user_name", length=50)
+	@Column(name="user_name", length=50,unique = true,nullable = false)
 	private String userName;
 	
-	@Column(name="password", length=50)
+	@Column(name="password", columnDefinition ="TEXT",nullable =false)
 	private String password;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
 	inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<EntityRole> roles = new ArrayList<>();
@@ -45,7 +45,31 @@ public class EntityUser extends CoreEntity {
 	@OneToMany(mappedBy = "user")
 	private List<EntityOrder> orders;
 	
+	@Column(name="address")
+	private String address;
 	
+	@Column(name="user_google_id")
+	private String userGoogleId;
+	
+	@OneToOne(mappedBy = "entityUser")
+	private PasswordResetToken passwordResetToken;
+
+	public String getUserGoogleId() {
+		return userGoogleId;
+	}
+
+	public void setUserGoogleId(String userGoogleId) {
+		this.userGoogleId = userGoogleId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public List<EntityOrder> getOrders() {
 		return orders;
 	}
@@ -117,6 +141,15 @@ public class EntityUser extends CoreEntity {
 	public void setRoles(List<EntityRole> roles) {
 		this.roles = roles;
 	}
+
+	public PasswordResetToken getPasswordResetToken() {
+		return passwordResetToken;
+	}
+
+	public void setPasswordResetToken(PasswordResetToken passwordResetToken) {
+		this.passwordResetToken = passwordResetToken;
+	}
+	
 	
 	
 }

@@ -19,7 +19,7 @@ public class EntityCartDetail extends CoreEntity {
 	private EntityAmount amount;
 	
 	@Column
-	private Integer quantity;
+	private Integer quantity = 0;
 	
 	@Column
 	private Double totalPrice;
@@ -31,6 +31,32 @@ public class EntityCartDetail extends CoreEntity {
 	public void setCart(EntityCart cart) {
 		this.cart = cart;
 	}
+
+	public EntityAmount getAmount() {
+		return amount;
+	}
+
+	public void setAmount(EntityAmount amount) {
+		this.amount = amount;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	 
+	
 	
 	
 }

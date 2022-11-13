@@ -25,6 +25,8 @@ public interface IProductService {
 	public List<ProductDTO> insertMultiProduct(List<ProductDTO> products);
 	
 	public Long deleteProduct(List<Long> ids);
+	
+	public List<ProductDTO> findByTitle(String title);
 	Integer count(boolean isActive);
 	Integer count(boolean isActive,String categorySlug);
 }

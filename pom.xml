@@ -10,6 +10,7 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>17</java.version>
+		<springsecurity.version>3.2.8.RELEASE</springsecurity.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -78,7 +79,6 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>5.3.23</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -104,21 +104,32 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>5.7.3</version>
+			<version>5.2.7.RELEASE</version>
 		</dependency>
 
-		<dependency>
+			<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
-			<version>5.7.3</version>
+			<version>5.2.7.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>5.7.3</version>
+			<version>5.2.7.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>5.2.7.RELEASE</version>
+		</dependency>
+		<!-- jwt-->
+		<dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -158,6 +169,17 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-schema</artifactId>
 			<version>2.9.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring5</artifactId>
+			<version>3.0.15.RELEASE</version>
 		</dependency>
 	</dependencies>
 

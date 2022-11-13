@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="size")
 public class EntitySize extends CoreEntity {
-	@Column(name="name_size")
+	@Column(name="name_size",nullable = false, unique = true)
 	private String nameSize;
 	
 	@OneToMany(mappedBy = "size")

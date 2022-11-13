@@ -33,7 +33,11 @@ public class ColorConvert {
 				entity = new EntityColor();
 				entity.setId(color.getId());
 				entity.setColorName(color.getColorName());
-				entity.setIsActive(color.getIsActive());
+				if(color.getIsActive() == null) {
+					entity.setIsActive(true);
+				}else {
+					entity.setIsActive(color.getIsActive());
+				}
 				entity.setCreatedBy(color.getCreatedBy());
 				entity.setCreatedDate(color.getCreatedDate());
 				entity.setModifiedBy(color.getModifiedBy());

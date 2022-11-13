@@ -32,7 +32,12 @@ public class SizeConvert {
 		 entity = new EntitySize();
 		entity.setId(dto.getId());
 		entity.setNameSize(dto.getNameSize());
-		entity.setIsActive(dto.getIsActive());
+		if(dto.getIsActive() == null) {
+			entity.setIsActive(true);
+		}else {
+			entity.setIsActive(dto.getIsActive());
+		}
+		
 		entity.setCreatedBy(dto.getCreatedBy());
 		entity.setCreatedDate(dto.getCreatedDate());
 		entity.setModifiedBy(dto.getModifiedBy());

@@ -24,7 +24,7 @@ import com.clothingstore.exception.MessageResponse;
 import com.clothingstore.service.IProductService;
 
 import io.swagger.annotations.ApiOperation;
-@CrossOrigin(origins = "*")
+
 @RestController(value="apiProductOfAdmin")
 public class ProductAPI {
 
@@ -115,5 +115,10 @@ public class ProductAPI {
 		return new MessageResponse<Long>(HttpStatus.OK.value(),HttpStatus.OK,"Delete product successfully",productService.deleteProduct(ids));
 	}
 	
+	@GetMapping("/api/product/search")
+	public MessageResponse<?> search(@RequestParam String titleProduct){
+		List<ProductDTO> dtos = productService.findByTitle(titleProduct);
+		return new MessageResponse<List<ProductDTO>>(HttpStatus.OK.value(),HttpStatus.OK,"search product successfully",dtos);
+	}
 	
 }

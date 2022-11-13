@@ -181,13 +181,23 @@ public class ProductService implements IProductService {
 						for (EntityAmount amount : oldProduct.getAmounts()) {
 							boolean check = true;
 							for (AmountShort amountShort : productDTO.getInfoProduct()) {
-								if (amount.getColor().getId() == amountShort.getColor().getId()
-										&& amount.getSize().getId() == amountShort.getSize().getId()) {
-									check = false;
-									amount.setAmount(amountShort.getAmount());
-									amountsSaveAndUpdate.add(amount);
-									productDTO.getInfoProduct().remove(amountShort);
-									break;
+								if(amount.getSize() !=null && amountShort.getSize() !=null) {
+									if (amount.getColor().getId() == amountShort.getColor().getId()
+											&& amount.getSize().getId() == amountShort.getSize().getId()) {
+										check = false;
+										amount.setAmount(amountShort.getAmount());
+										amountsSaveAndUpdate.add(amount);
+										productDTO.getInfoProduct().remove(amountShort);
+										break;
+									}
+								}else {
+									if (amount.getColor().getId() == amountShort.getColor().getId()) {
+										check = false;
+										amount.setAmount(amountShort.getAmount());
+										amountsSaveAndUpdate.add(amount);
+										productDTO.getInfoProduct().remove(amountShort);
+										break;
+									}
 								}
 							}
 							if (check == true) {
@@ -241,5 +251,11 @@ public class ProductService implements IProductService {
 		EntityCategory category = categoryConvert.toEntity(categoryService.findByCategorySlug(categorySlug));
 		Integer total = productRepository.countByIsActiveAndCategory(isActive,category).intValue();
 		return total;
+	}
+	
+	@Override
+	public List<ProductDTO> findByTitle(String title) {
+		List<ProductDTO> list = productConvert.toListDTO(productRepository.findByIsActiveTrueAndTitleIsContaining(title));
+		return list!=null?list:new ArrayList<>();
 	}
 }

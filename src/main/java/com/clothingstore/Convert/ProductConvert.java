@@ -29,7 +29,11 @@ public class ProductConvert {
 			entity.setImg(imgs.substring(0, imgs.length() - 1));
 		}
 		entity.setDiscount(productDTO.getDiscount());
-		entity.setIsActive(productDTO.getIsActive());
+		if(productDTO.getIsActive()!=null) {
+			entity.setIsActive(productDTO.getIsActive());
+		}else {
+			entity.setIsActive(true);
+		}
 		entity.setPrice(productDTO.getPrice());
 		if(productDTO.getTitle() != null && !productDTO.getTitle().isEmpty()) {
 			String slug =  productDTO.getTitle().trim().replaceAll(" ", "-");

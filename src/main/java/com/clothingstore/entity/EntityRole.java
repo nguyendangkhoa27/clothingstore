@@ -15,7 +15,7 @@ public class EntityRole extends CoreEntity {
 	@Column(name="name",length = 20)
 	private String name;
 	
-	@Column(name="code",length = 20)
+	@Column(name="code",length = 20,unique =true,nullable=false)
 	private String code;
 	
 	@ManyToMany(mappedBy = "roles")

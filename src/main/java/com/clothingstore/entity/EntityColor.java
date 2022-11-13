@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="color")
 public class EntityColor extends CoreEntity {
-		@Column(name="color_name",length = 150)
+		@Column(name="color_name",length = 150,nullable = false, unique = true)
 		private String colorName;
 		
 		@OneToMany(mappedBy = "color")

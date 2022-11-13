@@ -15,6 +15,12 @@ public class MyUser extends User {
 			boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
 		super(userName, password, enabled, accountNonExpired, creadentialsNonExpired, accountNonLocked, authorities);
 	}
+	public MyUser(String userName, String password, Collection<GrantedAuthority> author) {
+		super(userName, password, author);
+	}
+	
+	private Long id;
+	
 	private String firstName;
 
 	private String lastName;
@@ -24,17 +30,37 @@ public class MyUser extends User {
 	private String email;
 
 	private String phoneNumber;
-
-	private String userName;
-
-	private String password;
-
+	
+	private Boolean isActive;
+	
+	private CartDTO cartDTO;
+	
+	
+	public CartDTO getCartDTO() {
+		return cartDTO;
+	}
+	public void setCartDTO(CartDTO cartDTO) {
+		this.cartDTO = cartDTO;
+	}
+	public Boolean getIsActive() {
+		return isActive;
+	}
+	
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 	private List<RoleDTO> roles = new ArrayList<>();
 
 	public String getFirstName() {
 		return firstName;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -61,22 +87,6 @@ public class MyUser extends User {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public List<RoleDTO> getRoles() {

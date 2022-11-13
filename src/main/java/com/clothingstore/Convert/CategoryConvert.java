@@ -43,13 +43,17 @@ public class CategoryConvert {
 			entity = new EntityCategory();
 			entity.setId(dto.getId());
 			entity.setCategorySlug(dto.getCategorySlug());
-			entity.setIsActive(dto.getIsActive());
 			if(dto.getImg() != null && dto.getImg().size() > 0) {
 				String imgs = "";
 				for(String img : dto.getImg()) {
 					imgs += img+",";
 				} 
 				entity.setImg(imgs.substring(0,(imgs.length()-1)));
+			}
+			if(dto.getIsActive() == null) {
+				entity.setIsActive(true);
+			}else {
+				entity.setIsActive(dto.getIsActive());
 			}
 			entity.setCreatedBy(dto.getCreatedBy());
 			entity.setCreatedDate(dto.getCreatedDate());

@@ -14,5 +14,6 @@
 				<class>com.clothingstore.entity.EntityCartDetail</class>
 				<class>com.clothingstore.entity.EntityOrderDetail</class>
 				<class>com.clothingstore.entity.EntityOrder</class>
+				<class>com.clothingstore.entity.PasswordResetToken</class>
     </persistence-unit>
 </persistence>
