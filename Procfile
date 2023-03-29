@@ -1,1 +1,1 @@
-web: java -war ClothingStore-1.1.war
+web: java -war target/ClothingStore-1.1.war
