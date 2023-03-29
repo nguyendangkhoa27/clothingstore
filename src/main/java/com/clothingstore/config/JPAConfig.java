@@ -24,7 +24,7 @@ public class JPAConfig {
 		@Bean
 		public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 			LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-			emf.setDataSource(datasourcePostgresHost());
+			emf.setDataSource(datasourceCleanMySQL());
 			emf.setPersistenceUnitName("persistence-data");
 			JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 			emf.setJpaVendorAdapter(adapter);
@@ -66,15 +66,25 @@ public class JPAConfig {
 //			return datasource;
 //		}
 		
-		@Bean
-		public DataSource datasourcePostgresHost() {
+//		@Bean
+//		public DataSource datasourcePostgresHost() {
+//			DriverManagerDataSource datasource = new DriverManagerDataSource();
+//			datasource.setDriverClassName("org.postgresql.Driver");
+//			datasource.setUrl("jdbc:postgresql://18.215.41.121:5432/d6p4ccta6ju8fp");
+//			datasource.setUsername("fthzvfucdmeata");
+//			datasource.setPassword("9f7854ab08b961947bd5a1c0203052904e67f45882eec4397b878149422ed91b");
+//			return datasource;
+//		}
+		
+		@Bean DataSource datasourceCleanMySQL() {
 			DriverManagerDataSource datasource = new DriverManagerDataSource();
-			datasource.setDriverClassName("org.postgresql.Driver");
-			datasource.setUrl("jdbc:postgresql://18.215.41.121:5432/d6p4ccta6ju8fp");
-			datasource.setUsername("fthzvfucdmeata");
-			datasource.setPassword("9f7854ab08b961947bd5a1c0203052904e67f45882eec4397b878149422ed91b");
+			datasource.setDriverClassName("com.mysql.jdbc.Driver");
+			datasource.setUrl("jdbc:mysql://b05985b670a67a:79d7976b@us-cdbr-east-06.cleardb.net/heroku_6d344f71ce5127d?reconnect=true");
+			datasource.setUsername("b05985b670a67a");
+			datasource.setPassword("79d7976b");
 			return datasource;
 		}
+		
 		Properties Addproperties() {
 			Properties properties = new Properties();
 			properties.setProperty("hibernate.hbm2ddl.auto", "update");
