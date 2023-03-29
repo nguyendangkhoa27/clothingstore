@@ -1,1 +1,1 @@
-web: java -war target/ClothingStore-1.1.war
+web: java $JAVA_OPTS -war target/ClothingStore-1.1.war
