@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.clothingstore.ClothingStore
+web: java -war ClothingStore-1.1.war
